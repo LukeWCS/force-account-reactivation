@@ -1,0 +1,23 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# phpBB Programmierrichtlinien - Editor Vorgaben v1.2
+# Quelle: https://www.phpbb.de/kb/viewarticle?a=93
+# Autor : LukeWCS (phpBB.de), 2023-07-27
+
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+[*.{php,js,css,json,html,txt,md,yml}]
+charset = utf-8
+indent_style = tab
+indent_size = 4
+trim_trailing_whitespace = true
+
+[*.{txt,md,yml}]
+trim_trailing_whitespace = false
+
+[*.{json,yml}]
+indent_style = space
