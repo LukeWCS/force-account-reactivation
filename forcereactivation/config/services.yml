@@ -1,0 +1,23 @@
+services:
+    lukewcs.forcereactivation.listener:
+        class: lukewcs\forcereactivation\event\listener
+        arguments:
+            - '@language'
+            - '@config'
+            - '@user'
+            - '@log'
+            - '@dbal.conn'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
+    lukewcs.forcereactivation.controller.acp:
+        class: lukewcs\forcereactivation\controller\acp_foraccrea_controller
+        arguments:
+            - '@language'
+            - '@template'
+            - '@config'
+            - '@request'
+            - '@dbal.conn'
+            - '@group_helper'
+            - '@ext.manager' 
