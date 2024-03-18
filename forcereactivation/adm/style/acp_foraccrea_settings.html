@@ -50,10 +50,22 @@
 			<dt>
 				<label>{{ lang('FORACCREA_EXCLUDE_GROUPS') ~ lang('COLON') }}</label><br>
 				<span>{{ lang('FORACCREA_EXCLUDE_GROUPS_EXPLAIN') }}</span>
+				<br><br>
+				<span>{{ lang('FORACCREA_MULTISELECT_EXPLAIN') }}</span>
 			</dt>
 			<dd>
 				{{ _self.select('foraccrea_exclude_groups', FORACCREA_EXCLUDE_GROUPS, true, 8) }}
 
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label>{{ lang('FORACCREA_EXCLUDE_NRU') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('FORACCREA_EXCLUDE_NRU_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				{{ _self.switch('foraccrea_exclude_nru', FORACCREA_EXCLUDE_NRU, switch_type) }}
 			</dd>
 		</dl>
 	</fieldset>

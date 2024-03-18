@@ -55,6 +55,7 @@ class listener implements EventSubscriberInterface
 	public function check_force_reactivation($event)
 	{
 		$user_row = $event['login']['user_row'];
+// $test_users = ['force_react_user', 'test2'];
 
 		// Check requirements
 		if ($event['login']['status'] != LOGIN_SUCCESS
@@ -64,25 +65,56 @@ class listener implements EventSubscriberInterface
 			|| $user_row['user_email'] == ''
 		)
 		{
-			// if ($user_row['username_clean'] == 'force_react_user')
+			// if (array_search($user_row['username_clean'], $test_users) !== false)
 			// {
 				// trigger_error('requirements false');
 			// }
 			// Requirements not met, cancel process.
 			return;
 		}
+// var_dump($user_row['username_clean']);
 
-		$exclude_groups = json_decode($this->config['foraccrea_exclude_groups']) ?? [];
-
+		// Determine the user's last visit.
 		$sql = 'SELECT session_user_id, MAX(session_time) AS session_time
 				FROM ' . SESSIONS_TABLE . '
 				WHERE session_user_id = ' . (int) $user_row['user_id'];
-				// WHERE session_user_id = 100';
 		$result = $this->db->sql_query($sql);
-		$session = $this->db->sql_fetchrow($result);
+		$user_last_session = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
+		$user_lastvisit = $user_last_session['session_time'] ?? $user_row['user_lastvisit'] ?? 1;
+// var_dump('user_last_session', $user_last_session);
+// var_dump('user_last_time', $user_lastvisit);
 
-		$user_last_time = $session['session_time'] ?? $user_row['user_lastvisit'] ?? 1;
+		// Determine the ID of the NRU group.
+		$sql = 'SELECT group_id, group_type, group_name
+				FROM ' . GROUPS_TABLE . '
+				WHERE group_name = "NEWLY_REGISTERED"';
+		$result = $this->db->sql_query($sql);
+		$fetchrow = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+		$nru_group_id = $fetchrow['group_id'] ?? null;
+// var_dump('nru_group_id', $nru_group_id);
+
+		// Check whether the user is excluded.
+		$group_memberships = group_memberships(false, $user_row['user_id']);
+		$user_group_ids = array_column($group_memberships, 'group_id');
+// var_dump(array_search($nru_group_id, $user_group_ids) !== false);
+
+		if ($nru_group_id !== null && array_search($nru_group_id, $user_group_ids) !== false)
+		{
+			$exclude_user = $this->config['foraccrea_exclude_nru'];
+		}
+		else
+		{
+			$exclude_group_ids = json_decode($this->config['foraccrea_exclude_groups']) ?? [];
+			$intersect_group_ids = array_intersect($user_group_ids, $exclude_group_ids);
+			$exclude_user = count($intersect_group_ids) > 0;
+		}
+
+// var_dump('exclude_group_ids', $exclude_group_ids ?? null);
+// var_dump('user_group_ids', $user_group_ids);
+// var_dump('intersect_group_ids', $intersect_group_ids ?? null);
+// var_dump('exclude_user', $exclude_user == true);
 
 // var_dump($user_row['user_lastvisit']);
 // var_dump($user_row['user_lastvisit'] - strtotime('-' .  $this->config['foraccrea_time_range'] . ' ' .  $this->config['foraccrea_time_range_type']));
@@ -90,29 +122,22 @@ class listener implements EventSubscriberInterface
 // var_dump($event['login']['user_row']);
 // var_dump($user_row['user_type']);
 
-// var_dump($exclude_groups);
-// var_dump(group_memberships(false, $user_row['user_id']));
-// var_dump('count: '. (count($exclude_groups) ? 'true' : 'false'));
-// var_dump('empty: ' . (empty($exclude_groups) ? 'true' : 'false'));
-// var_dump('group_memberships: ' . (group_memberships(json_decode($this->config['foraccrea_exclude_groups']), $user_row['user_id'], true) ? 'true' : 'false'));
-// var_dump('excluded: ' . (count($exclude_groups) && group_memberships($exclude_groups, $user_row['user_id'], true) ? 'true' : 'false'));
-
 // date_default_timezone_set('europe/berlin');
 // var_dump('session_time  : ' . (isset($session['session_time']) ? $session['session_time'] . ' - ' . date('Y-m-d H:i:s', $session['session_time']) : '-'));
 // var_dump('user_lastvisit: ' . $user_row['user_lastvisit'] . ' - ' . date('Y-m-d H:i:s', $user_row['user_lastvisit']));
-// var_dump('user_last_time: ' . $user_last_time . ' - ' . date('Y-m-d H:i:s', $user_last_time));
+// var_dump('user_last_time: ' . $user_lastvisit . ' - ' . date('Y-m-d H:i:s', $user_lastvisit));
 
 		// Check conditions for forced reactivation
-		if (count($exclude_groups) && group_memberships($exclude_groups, $user_row['user_id'], true)
-			|| $user_last_time >= strtotime(' - ' .  $this->config['foraccrea_time_range'] . ' ' .  $this->config['foraccrea_time_range_type'])
+		if ($exclude_user
+			|| $user_lastvisit >= strtotime(' - ' .  $this->config['foraccrea_time_range'] . ' ' .  $this->config['foraccrea_time_range_type'])
 			// || $user_row['username_clean'] != 'force_react_user'
 		)
 		{
-			// if ($user_row['username_clean'] == 'force_react_user')
+			// if (array_search($user_row['username_clean'], $test_users) !== false)
 			// {
-				// trigger_error('conditions false');
+				// trigger_error('allowed');
 			// }
-			// We don't have to act, so we go back to sleep.
+			// We don't have to act, user is allowed to pass.
 			return;
 		}
 

@@ -62,17 +62,18 @@ class acp_foraccrea_controller
 				trigger_error($this->language->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
 			}
 
-			$this->config->set('foraccrea_enable'			, $this->request->variable('foraccrea_enable'						, 0));
-			$this->config->set('foraccrea_time_range'		, $this->request->variable('foraccrea_time_range'					, 2));
-			$this->config->set('foraccrea_time_range_type'	, $this->request->variable('foraccrea_time_range_type'				, 'years'));
-			$this->config->set('foraccrea_exclude_groups'	, json_encode($this->request->variable('foraccrea_exclude_groups'	, [0])));
+			$this->config->set('foraccrea_enable'				, $this->request->variable('foraccrea_enable'						, 0));
+			$this->config->set('foraccrea_time_range'			, $this->request->variable('foraccrea_time_range'					, 2));
+			$this->config->set('foraccrea_time_range_type'		, $this->request->variable('foraccrea_time_range_type'				, 'years'));
+			$this->config->set('foraccrea_exclude_groups'		, json_encode($this->request->variable('foraccrea_exclude_groups'	, [0])));
+			$this->config->set('foraccrea_exclude_nru'			, $this->request->variable('foraccrea_exclude_nru'					, 0));
 
 			trigger_error($this->language->lang('FORACCREA_MSG_SAVED_SETTINGS') . adm_back_link($this->u_action));
 		}
 
 		$sql = 'SELECT group_id, group_type, group_name
 				FROM ' . GROUPS_TABLE . '
-				WHERE group_name NOT IN ("BOTS", "GUESTS")
+				WHERE group_name NOT IN ("BOTS", "GUESTS", "NEWLY_REGISTERED")
 				ORDER BY group_type DESC, group_name ASC';
 		$result = $this->db->sql_query($sql);
 		$db_groups = $this->db->sql_fetchrowset($result);
@@ -88,8 +89,6 @@ class acp_foraccrea_controller
 				'selected'	=> in_array($group['group_id'], $exclude_group_ids),
 			];
 		}
-// var_dump($db_groups);
-// var_dump($exclude_groups);
 
 		$time_range_types = [
 			[
@@ -103,7 +102,6 @@ class acp_foraccrea_controller
 				'selected'	=> $this->config['foraccrea_time_range_type'] == 'months',
 			],
 		];
-// var_dump($time_range_types);
 
 		$lang_outdated_msg = $this->lang_ver_check_msg('FORACCREA_LANG_VER', 'FORACCREA_MSG_LANGUAGEPACK_OUTDATED');
 		if ($lang_outdated_msg)
@@ -112,11 +110,12 @@ class acp_foraccrea_controller
 		}
 
 		$this->template->assign_vars([
-			'FORACCREA_NOTES'					=> $notes,
-			'FORACCREA_ENABLE'					=> $this->config['foraccrea_enable'],
-			'FORACCREA_TIME_RANGE'				=> $this->config['foraccrea_time_range'],
-			'FORACCREA_TIME_RANGE_TYPES'		=> $time_range_types,
-			'FORACCREA_EXCLUDE_GROUPS'			=> $exclude_groups,
+			'FORACCREA_NOTES'				=> $notes,
+			'FORACCREA_ENABLE'				=> $this->config['foraccrea_enable'],
+			'FORACCREA_TIME_RANGE'			=> $this->config['foraccrea_time_range'],
+			'FORACCREA_TIME_RANGE_TYPES'	=> $time_range_types,
+			'FORACCREA_EXCLUDE_GROUPS'		=> $exclude_groups,
+			'FORACCREA_EXCLUDE_NRU'			=> $this->config['foraccrea_exclude_nru'],
 		]);
 
 		add_form_key('lukewcs_forcereactivation');

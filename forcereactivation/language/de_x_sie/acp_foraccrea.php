@@ -51,7 +51,11 @@ $lang = array_merge($lang, [
 	'FORACCREA_TIME_RANGE_YEARS'		=> 'Jahre',
 	'FORACCREA_TIME_RANGE_MONTHS'		=> 'Monate',
 	'FORACCREA_EXCLUDE_GROUPS'			=> 'Gruppen ausschließen',
-	'FORACCREA_EXCLUDE_GROUPS_EXPLAIN'	=> 'Hier können Sie Gruppen auswählen, die von einer erzwungenen Konto Reaktivierung ausgeschlossen werden sollen. Gründer und Bots sind generell ausgeschlossen. Mit der gedrückten Taste „Strg“ („cmd“ bei macOS) können Sie eine Mehrfachauswahl vornehmen oder einzelne Einträge abwählen.',
+	'FORACCREA_EXCLUDE_GROUPS_EXPLAIN'	=> 'Hier können Sie Gruppen auswählen, die von einer erzwungenen Konto-Reaktivierung ausgeschlossen werden sollen. Gründer und Bots sind generell ausgeschlossen. Ist ein Benutzer Mitglied einer ausgeschlossenen Gruppe, wird er auch dann ausgeschlossen, wenn er in anderen Gruppen nicht ausgeschlossen ist.',
+	'FORACCREA_EXCLUDE_NRU'				=> '„Kürzlich registrierte Benutzer“ ausschließen',
+	'FORACCREA_EXCLUDE_NRU_EXPLAIN'		=> 'Wenn ein Benutzer Mitglied in dieser Gruppe ist, spielt es keine Rolle welche Auswahl bei „Gruppen ausschließen“ vorgenommen wird, da nur dieser Schalter relevant ist.',
+
+	'FORACCREA_MULTISELECT_EXPLAIN'		=> 'Mit der gedrückten Taste „Strg“ („cmd“ bei macOS) können Sie eine Mehrfachauswahl vornehmen oder einzelne Einträge abwählen.',
 
 	'FORACCREA_MSG_SAVED_SETTINGS'		=> 'Force Account Reactivation: Einstellungen erfolgreich gespeichert',
 ]);
