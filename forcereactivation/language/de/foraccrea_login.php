@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 //
 // Some characters you may want to copy&paste:
 // ’ « » “ ” … „ “
-//
+
 $lang = array_merge($lang, [
 	'FORACCREA_MSG_REACTIVATION_EXPLANATION' => 'Du hast dich in diesem Forum eine längere Zeit nicht mehr angemeldet, deshalb wurde dein Benutzerkonto aus Sicherheitsgründen vorübergehend deaktiviert.<br><br>Es wurde ein Link für die Reaktivierung an die E-Mail Adresse geschickt, die im Benutzerkonto hinterlegt ist. Sobald du diesen Link aufgerufen hast, wird dein Benutzerkonto reaktiviert und du kannst dich wieder hier im Forum anmelden.',
 ]);

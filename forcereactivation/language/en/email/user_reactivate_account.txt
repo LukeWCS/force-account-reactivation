@@ -1,0 +1,19 @@
+Subject: Reactivate your account on “{SITENAME}”
+
+Your user account has just been successfully logged in after a long absence from our forum, so your user account has been temporarily deactivated for security reasons.
+
+Please follow the steps listed here to reactivate your account. If the login has not been carried out by you, please change your password immediately after reactivation.
+
+Your account information is as follows:
+
+----------------------------
+Username: {USERNAME}
+----------------------------
+
+Your password has been securely stored in our database and cannot be retrieved. In the event that it is forgotten, you will be able to reset it using the email address associated with your account.
+
+Please visit the following link to reactivate your account:
+
+{U_ACTIVATE}
+
+{EMAIL_SIG}

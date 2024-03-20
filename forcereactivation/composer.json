@@ -3,8 +3,8 @@
     "type": "phpbb-extension",
     "description": "Allows you to force an automatic user account reactivation if it has been too long since the user last logged in.",
     "homepage": "https://github.com/LukeWCS",
-    "version": "1.0.0-b2",
-    "time": "2024-03-18",
+    "version": "1.0.0-b3",
+    "time": "2024-03-20",
     "license": "GPL-2.0-only",
     "authors": [
         {

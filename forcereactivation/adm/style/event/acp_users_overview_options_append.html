@@ -1,0 +1,19 @@
+<dl>
+	<dt>
+		<label>{{ lang('FORACCREA_PASSCHANGE_TIME') ~ lang('COLON') }}</label>
+	</dt>
+	<dd>
+		<strong>{{ FORACCREA_PASSCHANGE_TIME }}</strong>
+	</dd>
+</dl>
+
+{% if FORACCREA_INACTIVE_TIME !== false %}
+<dl>
+	<dt>
+		<label>{{ lang('FORACCREA_INACTIVE_TIME') ~ lang('COLON') }}</label>
+	</dt>
+	<dd>
+		<strong>{{ FORACCREA_INACTIVE_TIME }}</strong>
+	</dd>
+</dl>
+{% endif %}

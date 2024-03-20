@@ -3,6 +3,7 @@ services:
         class: lukewcs\forcereactivation\event\listener
         arguments:
             - '@language'
+            - '@template'
             - '@config'
             - '@user'
             - '@log'

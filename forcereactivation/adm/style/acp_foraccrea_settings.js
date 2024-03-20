@@ -25,7 +25,7 @@ function setState() {
 	// dimOptionGroup('foraccrea_time_range'		, !$('[name="foraccrea_enable"]').prop('checked'));
 	// dimOptionGroup('foraccrea_exclude_groups[]'	, !$('[name="foraccrea_enable"]').prop('checked'));
 	// dimOptionGroup('foraccrea_exclude_nru'		, !$('[name="foraccrea_enable"]').prop('checked'));
-	$('dl:not(:first-of-type)').css('opacity',
+	$('dl:nth-of-type(1n+2)').css('opacity',
 		$('[name="foraccrea_enable"]').prop('checked')
 		? c.OpacityEnabled : c.OpacityDisabled
 	);

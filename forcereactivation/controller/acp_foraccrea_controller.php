@@ -111,6 +111,7 @@ class acp_foraccrea_controller
 
 		$this->template->assign_vars([
 			'FORACCREA_NOTES'				=> $notes,
+
 			'FORACCREA_ENABLE'				=> $this->config['foraccrea_enable'],
 			'FORACCREA_TIME_RANGE'			=> $this->config['foraccrea_time_range'],
 			'FORACCREA_TIME_RANGE_TYPES'	=> $time_range_types,

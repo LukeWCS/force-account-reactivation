@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 //
 // Some characters you may want to copy&paste:
 // ’ « » “ ” … „ “
-//
+
 $lang = array_merge($lang, [
 	'FORACCREA_NAV_TITLE'		=> 'Force Account Reactivation',
 	'FORACCREA_NAV_CONFIG'		=> 'Settings',

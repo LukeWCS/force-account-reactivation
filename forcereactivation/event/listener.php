@@ -18,6 +18,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class listener implements EventSubscriberInterface
 {
 	protected $language;
+	protected $template;
 	protected $config;
 	protected $user;
 	protected $log;
@@ -27,6 +28,7 @@ class listener implements EventSubscriberInterface
 
 	public function __construct(
 		\phpbb\language\language $language,
+		\phpbb\template\template $template,
 		\phpbb\config\config $config,
 		\phpbb\user $user,
 		\phpbb\log\log $log,
@@ -36,6 +38,7 @@ class listener implements EventSubscriberInterface
 	)
 	{
 		$this->language			= $language;
+		$this->template			= $template;
 		$this->config			= $config;
 		$this->user				= $user;
 		$this->log				= $log;
@@ -48,6 +51,7 @@ class listener implements EventSubscriberInterface
 	{
 		return [
 			'core.auth_login_session_create_before' => 'check_force_reactivation',
+			'core.acp_users_display_overview'		=> 'user_mgr_template_vars',
 		];
 	}
 
@@ -98,7 +102,7 @@ class listener implements EventSubscriberInterface
 		// Check whether the user is excluded.
 		$group_memberships = group_memberships(false, $user_row['user_id']);
 		$user_group_ids = array_column($group_memberships, 'group_id');
-// var_dump(array_search($nru_group_id, $user_group_ids) !== false);
+// var_dump('is nru', array_search($nru_group_id, $user_group_ids) !== false);
 
 		if ($nru_group_id !== null && array_search($nru_group_id, $user_group_ids) !== false)
 		{
@@ -122,11 +126,6 @@ class listener implements EventSubscriberInterface
 // var_dump($event['login']['user_row']);
 // var_dump($user_row['user_type']);
 
-// date_default_timezone_set('europe/berlin');
-// var_dump('session_time  : ' . (isset($session['session_time']) ? $session['session_time'] . ' - ' . date('Y-m-d H:i:s', $session['session_time']) : '-'));
-// var_dump('user_lastvisit: ' . $user_row['user_lastvisit'] . ' - ' . date('Y-m-d H:i:s', $user_row['user_lastvisit']));
-// var_dump('user_last_time: ' . $user_lastvisit . ' - ' . date('Y-m-d H:i:s', $user_lastvisit));
-
 		// Check conditions for forced reactivation
 		if ($exclude_user
 			|| $user_lastvisit >= strtotime(' - ' .  $this->config['foraccrea_time_range'] . ' ' .  $this->config['foraccrea_time_range_type'])
@@ -146,13 +145,12 @@ class listener implements EventSubscriberInterface
 		$this->language->add_lang('common');
 		$this->language->add_lang('foraccrea_login', 'lukewcs/forcereactivation');
 
-		// Generate the reactivation key.
-		$user_actkey = gen_rand_string(mt_rand(6, 10));
-
 		// Deactivate the user account and set status to "Forced user account reactivation".
 		user_active_flip('deactivate', $user_row['user_id'], INACTIVE_REMIND);
 
 		// Update the user's last visit and add the reactivation key.
+		$user_actkey = gen_rand_string(mt_rand(6, 10));
+
 		$sql = 'UPDATE ' . USERS_TABLE . '
 				SET user_lastvisit = ' . time() . ',
 					user_actkey = "' . $this->db->sql_escape($user_actkey) . '"
@@ -167,7 +165,7 @@ class listener implements EventSubscriberInterface
 		$messenger = new \messenger(false);
 		$server_url = generate_board_url();
 
-		$messenger->template('user_reactivate_account', $user_row['user_lang']);
+		$messenger->template('@lukewcs_forcereactivation/user_reactivate_account', $user_row['user_lang']);
 		$messenger->set_addresses($user_row);
 		$messenger->anti_abuse_headers($this->config, $this->user);
 		$messenger->assign_vars([
@@ -189,5 +187,17 @@ class listener implements EventSubscriberInterface
 
 		// Show the user a message and explain how they can reactivate their account.
 		trigger_error($this->language->lang('FORACCREA_MSG_REACTIVATION_EXPLANATION'));
+	}
+
+	public function user_mgr_template_vars($event)
+	{
+		$user_row = $event['user_row'];
+
+		$this->language->add_lang('acp_foraccrea_user_mgr', 'lukewcs/forcereactivation');
+
+		$this->template->assign_vars([
+			'FORACCREA_PASSCHANGE_TIME'	=> $this->user->format_date($user_row['user_passchg']),
+			'FORACCREA_INACTIVE_TIME'	=> $user_row['user_inactive_time'] ? $this->user->format_date($user_row['user_inactive_time']) : false,
+		]);
 	}
 }
