@@ -22,20 +22,11 @@ const constants = Object.freeze({
 function setState() {
 	const c = constants;
 
-	// dimOptionGroup('foraccrea_time_range'		, !$('[name="foraccrea_enable"]').prop('checked'));
-	// dimOptionGroup('foraccrea_exclude_groups[]'	, !$('[name="foraccrea_enable"]').prop('checked'));
-	// dimOptionGroup('foraccrea_exclude_nru'		, !$('[name="foraccrea_enable"]').prop('checked'));
 	$('dl:nth-of-type(1n+2)').css('opacity',
 		$('[name="foraccrea_enable"]').prop('checked')
 		? c.OpacityEnabled : c.OpacityDisabled
 	);
 };
-
-// function dimOptionGroup(elememtName, dimCondition) {
-	// const c = constants;
-
-	// $('[name="' + elememtName + '"]').parents('dl').css('opacity', dimCondition ? c.OpacityDisabled : c.OpacityEnabled);
-// }
 
 function formReset() {
 	setTimeout(function() {
