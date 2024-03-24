@@ -1,3 +1,12 @@
+### 1.0.0
+* Release (2024-03-24)
+* ACP-Template:
+  * Im Pulldown der Excludes werden Systemgruppen jetzt fett dargestellt, wie bei phpBB.
+  * `select()` Makro für die Fett-Darstellung erweitert.
+  * `text()` Makro entfernt, wurde nur in der Alpha benötigt.
+* Sprachdateien:
+  * Texte präzisiert.
+
 #### 1.0.0-b3
 * Benutzerverwaltung:
   * In der Übersicht wird bei einem Benutzer jetzt auch das Datum der letzten Passwort-Änderung angezeigt.

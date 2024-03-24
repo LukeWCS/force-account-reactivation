@@ -45,7 +45,7 @@ $lang = array_merge($lang, [
 
 	'FORACCREA_SETTINGS_TITLE'			=> 'Einstellungen',
 	'FORACCREA_ENABLE'					=> 'Funktion aktivieren',
-	'FORACCREA_ENABLE_EXPLAIN'			=> 'Mit diesem Schalter kannst du die Funktionalität dieser Erweiterung deaktivieren, ohne die Erweiterung komplett deaktivieren zu müssen.',
+	'FORACCREA_ENABLE_EXPLAIN'			=> 'Mit diesem Schalter kannst du die erzwungene Konto-Reaktivierung deaktivieren, ohne die Erweiterung komplett deaktivieren zu müssen.',
 	'FORACCREA_TIME_RANGE'				=> 'Gültiger Zeitraum',
 	'FORACCREA_TIME_RANGE_EXPLAIN'		=> 'Hier kannst du festlegen, wie lange die letzte Anmeldung eines Benutzerkontos maximal her sein darf, bevor eine Reaktivierung erzwungen wird.',
 	'FORACCREA_TIME_RANGE_YEARS'		=> 'Jahre',

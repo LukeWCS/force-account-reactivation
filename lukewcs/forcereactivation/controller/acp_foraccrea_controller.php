@@ -87,6 +87,7 @@ class acp_foraccrea_controller
 				'label'		=> $this->group_helper->get_name($group['group_name']),
 				'value'		=> $group['group_id'],
 				'selected'	=> in_array($group['group_id'], $exclude_group_ids),
+				'bold'		=> $group['group_type'] == GROUP_SPECIAL,
 			];
 		}
 

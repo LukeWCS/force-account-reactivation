@@ -107,22 +107,16 @@
 	}}>
 {%- endmacro %}
 
-{% macro text(name, value, size = null, placeholder = null, pattern = null, title = null) -%}
-	<input type="text" name="{{ name }}" value="{{ value }}"{{
-		(size !== null ? ' size="' ~ size ~ '"') ~
-		(placeholder !== null ? ' placeholder="' ~ placeholder ~ '"') ~
-		(pattern !== null ? ' pattern="' ~ pattern ~ '"') ~
-		(title !== null ? ' title="' ~ title ~ '"')
-	}}>
-{%- endmacro %}
-
 {% macro select(name, options, multiple = null, size = null) -%}
 	<select name="{{ name }}{{ multiple ? '[]' }}"{{
 		(multiple !== null ? ' multiple') ~
 		(size !== null ? ' size="' ~ size ~ '"')
 	}}>
 		{% for opt in options %}
-			<option value="{{ opt.value }}"{{ opt.selected ? ' selected' }}>{{ lang(opt.label) }}</option>
+			<option value="{{ opt.value }}"{{
+				((opt.bold ?? false) !== false ? ' class="sep"') ~
+				(opt.selected ? ' selected')
+			}}>{{ lang(opt.label) }}</option>
 		{% endfor %}
 	</select>
 {%- endmacro %}

@@ -59,7 +59,6 @@ class listener implements EventSubscriberInterface
 	public function check_force_reactivation($event)
 	{
 		$user_row = $event['login']['user_row'];
-// $test_users = ['force_react_user', 'test2'];
 
 		// Check requirements
 		if ($event['login']['status'] != LOGIN_SUCCESS
@@ -69,14 +68,9 @@ class listener implements EventSubscriberInterface
 			|| $user_row['user_email'] == ''
 		)
 		{
-			// if (array_search($user_row['username_clean'], $test_users) !== false)
-			// {
-				// trigger_error('requirements false');
-			// }
 			// Requirements not met, cancel process.
 			return;
 		}
-// var_dump($user_row['username_clean']);
 
 		// Determine the user's last visit.
 		$sql = 'SELECT session_user_id, MAX(session_time) AS session_time
@@ -86,8 +80,6 @@ class listener implements EventSubscriberInterface
 		$user_last_session = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 		$user_lastvisit = $user_last_session['session_time'] ?? $user_row['user_lastvisit'] ?? 1;
-// var_dump('user_last_session', $user_last_session);
-// var_dump('user_last_time', $user_lastvisit);
 
 		// Determine the ID of the NRU group.
 		$sql = 'SELECT group_id, group_type, group_name
@@ -97,12 +89,10 @@ class listener implements EventSubscriberInterface
 		$fetchrow = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 		$nru_group_id = $fetchrow['group_id'] ?? null;
-// var_dump('nru_group_id', $nru_group_id);
 
 		// Check whether the user is excluded.
 		$group_memberships = group_memberships(false, $user_row['user_id']);
 		$user_group_ids = array_column($group_memberships, 'group_id');
-// var_dump('is nru', array_search($nru_group_id, $user_group_ids) !== false);
 
 		if ($nru_group_id !== null && array_search($nru_group_id, $user_group_ids) !== false)
 		{
@@ -115,27 +105,11 @@ class listener implements EventSubscriberInterface
 			$exclude_user = count($intersect_group_ids) > 0;
 		}
 
-// var_dump('exclude_group_ids', $exclude_group_ids ?? null);
-// var_dump('user_group_ids', $user_group_ids);
-// var_dump('intersect_group_ids', $intersect_group_ids ?? null);
-// var_dump('exclude_user', $exclude_user == true);
-
-// var_dump($user_row['user_lastvisit']);
-// var_dump($user_row['user_lastvisit'] - strtotime('-' .  $this->config['foraccrea_time_range'] . ' ' .  $this->config['foraccrea_time_range_type']));
-// var_dump($event['login']['status']);
-// var_dump($event['login']['user_row']);
-// var_dump($user_row['user_type']);
-
 		// Check conditions for forced reactivation
 		if ($exclude_user
 			|| $user_lastvisit >= strtotime(' - ' .  $this->config['foraccrea_time_range'] . ' ' .  $this->config['foraccrea_time_range_type'])
-			// || $user_row['username_clean'] != 'force_react_user'
 		)
 		{
-			// if (array_search($user_row['username_clean'], $test_users) !== false)
-			// {
-				// trigger_error('allowed');
-			// }
 			// We don't have to act, user is allowed to pass.
 			return;
 		}
@@ -180,10 +154,6 @@ class listener implements EventSubscriberInterface
 		$this->log->add('user', $this->user->data['user_id'], $this->user->ip, 'LOG_USER_REACTIVATE_USER', false, [
 			'reportee_id' => $user_row['user_id']
 		]);
-
-// 1707596986
-// http://phpbb33/ucp.php?mode=activate&u=72&k=
-// echo "<a href='{$server_url}/ucp.{$this->php_ext}?mode=activate&u={$user_row['user_id']}&k={$user_actkey}'>activate</a>";
 
 		// Show the user a message and explain how they can reactivate their account.
 		trigger_error($this->language->lang('FORACCREA_MSG_REACTIVATION_EXPLANATION'));
