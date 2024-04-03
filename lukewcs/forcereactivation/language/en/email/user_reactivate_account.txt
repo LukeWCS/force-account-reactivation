@@ -1,8 +1,8 @@
 Subject: Reactivate your account on “{SITENAME}”
 
-Your user account has just been successfully logged in after a long absence from our forum, so your user account has been temporarily deactivated for security reasons.
+A login has just been carried out with your user account, which you have not used to log in to our forum for a long time. Therefore, your user account has been temporarily deactivated for security reasons.
 
-Please follow the steps listed here to reactivate your account. If the login has not been carried out by you, please change your password immediately after reactivation.
+Please follow the instructions to reactivate your account. If you did not log in, please change your password immediately after reactivation.
 
 Your account information is as follows:
 

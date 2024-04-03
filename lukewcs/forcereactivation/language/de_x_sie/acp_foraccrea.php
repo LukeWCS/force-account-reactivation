@@ -43,6 +43,9 @@ $lang = array_merge($lang, [
 	'FORACCREA_CONFIG_TITLE'			=> 'Konto-Reaktivierung erzwingen',
 	'FORACCREA_CONFIG_DESC'				=> 'Hier können Sie die Einstellungen für die Erweiterung <strong>%s</strong> ändern.',
 
+	'FORACCREA_SERVICES_REQUIRED'		=> 'Benötigte phpBB Dienste',
+	'FORACCREA_SERVICES_OPTIONAL'		=> 'Optionale phpBB Dienste',
+
 	'FORACCREA_SETTINGS_TITLE'			=> 'Einstellungen',
 	'FORACCREA_ENABLE'					=> 'Funktion aktivieren',
 	'FORACCREA_ENABLE_EXPLAIN'			=> 'Mit diesem Schalter können Sie die erzwungene Konto-Reaktivierung deaktivieren, ohne die Erweiterung komplett deaktivieren zu müssen.',

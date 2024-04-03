@@ -1,8 +1,8 @@
 Subject: Reaktivieren Sie Ihr Benutzerkonto „{SITENAME}“
 
-Mit Ihrem Benutzerkonto wurde soeben ein erfolgreicher Login nach einer längeren Abwesenheit in unserem Forum durchgeführt, deshalb wurde Ihr Benutzerkonto aus Sicherheitsgründen vorübergehend deaktiviert.
+Mit Ihrem Benutzerkonto, mit dem Sie sich länger nicht mehr bei uns im Forum angemeldet haben, wurde soeben eine Anmeldung durchgeführt. Deshalb wurde Ihr Benutzerkonto aus Sicherheitsgründen vorübergehend deaktiviert.
 
-Bitte folgen Sie den Anweisungen, um Ihr Konto wieder zu aktivieren. Sollte der Login nicht von Ihnen durchgeführt worden sein, dann ändern Sie bitte nach der Reaktivierung sofort Ihr Passwort.
+Bitte folgen Sie den Anweisungen, um Ihr Konto wieder zu aktivieren. Sollte die Anmeldung nicht von Ihnen durchgeführt worden sein, dann ändern Sie bitte nach der Reaktivierung sofort Ihr Passwort.
 
 Die Daten Ihres Benutzerkontos lauten:
 

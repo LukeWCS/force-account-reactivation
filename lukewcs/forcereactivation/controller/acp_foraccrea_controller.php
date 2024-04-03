@@ -79,30 +79,15 @@ class acp_foraccrea_controller
 		$db_groups = $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
 
-		$exclude_group_ids = json_decode($this->config['foraccrea_exclude_groups']) ?? [];
 		$exclude_groups = [];
 		foreach ($db_groups as $group)
 		{
 			$exclude_groups[] = [
-				'label'		=> $this->group_helper->get_name($group['group_name']),
-				'value'		=> $group['group_id'],
-				'selected'	=> in_array($group['group_id'], $exclude_group_ids),
-				'bold'		=> $group['group_type'] == GROUP_SPECIAL,
+				$this->group_helper->get_name($group['group_name']),
+				$group['group_id'],
+				$group['group_type'] == GROUP_SPECIAL,
 			];
 		}
-
-		$time_range_types = [
-			[
-				'label'		=> 'FORACCREA_TIME_RANGE_YEARS',
-				'value'		=> 'years',
-				'selected'	=> $this->config['foraccrea_time_range_type'] == 'years',
-			],
-			[
-				'label'		=> 'FORACCREA_TIME_RANGE_MONTHS',
-				'value'		=> 'months',
-				'selected'	=> $this->config['foraccrea_time_range_type'] == 'months',
-			],
-		];
 
 		$lang_outdated_msg = $this->lang_ver_check_msg('FORACCREA_LANG_VER', 'FORACCREA_MSG_LANGUAGEPACK_OUTDATED');
 		if ($lang_outdated_msg)
@@ -113,10 +98,18 @@ class acp_foraccrea_controller
 		$this->template->assign_vars([
 			'FORACCREA_NOTES'				=> $notes,
 
+			'FORACCREA_MAIL_ENABLED'		=> (bool) $this->config['email_enable'],
+			'FORACCREA_NRU_ENABLED'			=> (bool) $this->config['new_member_post_limit'],
+
 			'FORACCREA_ENABLE'				=> $this->config['foraccrea_enable'],
 			'FORACCREA_TIME_RANGE'			=> $this->config['foraccrea_time_range'],
-			'FORACCREA_TIME_RANGE_TYPES'	=> $time_range_types,
-			'FORACCREA_EXCLUDE_GROUPS'		=> $exclude_groups,
+			'FORACCREA_TIME_RANGE_TYPES'	=> $this->select_struct($this->config['foraccrea_time_range_type'], [
+				['FORACCREA_TIME_RANGE_YEARS',	'years'],
+				['FORACCREA_TIME_RANGE_MONTHS',	'months'],
+			]),
+			'FORACCREA_EXCLUDE_GROUPS'		=> $this->select_struct(json_decode($this->config['foraccrea_exclude_groups']) ?? [],
+				$exclude_groups
+			),
 			'FORACCREA_EXCLUDE_NRU'			=> $this->config['foraccrea_exclude_nru'],
 		]);
 
@@ -126,6 +119,23 @@ class acp_foraccrea_controller
 	public function set_page_url(string $u_action): void
 	{
 		$this->u_action = $u_action;
+	}
+
+	private function select_struct($value, array $options_params): array
+	{
+		$is_array_value = is_array($value);
+		$options = [];
+		foreach ($options_params as $params)
+		{
+			$options[] = [
+				'label'		=> $params[0],
+				'value'		=> $params[1],
+				'bold'		=> $params[2] ?? false,
+				'selected'	=> $is_array_value ? in_array($params[1], $value) : $params[1] == $value,
+			];
+		}
+
+		return $options;
 	}
 
 	private function set_meta_template_vars(string $tpl_prefix): void

@@ -27,6 +27,24 @@
 
 		<dl>
 			<dt>
+				<label>{{ lang('FORACCREA_SERVICES_REQUIRED') ~ lang('COLON') }}</label><br>
+			</dt>
+			<dd>
+				{{ _self.status(FORACCREA_MAIL_ENABLED) }} {{ lang('EMAIL') }}<br>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label>{{ lang('FORACCREA_SERVICES_OPTIONAL') ~ lang('COLON') }}</label><br>
+			</dt>
+			<dd>
+				{{ _self.status(FORACCREA_NRU_ENABLED) }} {{ lang('G_NEWLY_REGISTERED') }}<br>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
 				<label>{{ lang('FORACCREA_ENABLE') ~ lang('COLON') }}</label><br>
 				<span>{{ lang('FORACCREA_ENABLE_EXPLAIN') }}</span>
 			</dt>
@@ -82,6 +100,13 @@
 	{{ S_FORM_TOKEN }}
 </form>
 
+<script>
+	const foraccrea = Object.freeze({
+		mail_enabled: {{ FORACCREA_MAIL_ENABLED|json_encode }},
+		nru_enabled: {{ FORACCREA_NRU_ENABLED|json_encode }},
+	});
+</script>
+
 {{ _self.footer(FORACCREA_METADATA) }}
 
 {% INCLUDE 'overall_footer.html' %}
@@ -109,12 +134,12 @@
 
 {% macro select(name, options, multiple = null, size = null) -%}
 	<select name="{{ name }}{{ multiple ? '[]' }}"{{
-		(multiple !== null ? ' multiple') ~
-		(size !== null ? ' size="' ~ size ~ '"')
+		(size !== null ? ' size="' ~ size ~ '"') ~
+		(multiple ? ' multiple')
 	}}>
 		{% for opt in options %}
 			<option value="{{ opt.value }}"{{
-				((opt.bold ?? false) !== false ? ' class="sep"') ~
+				(opt.bold ? ' class="sep"') ~
 				(opt.selected ? ' selected')
 			}}>{{ lang(opt.label) }}</option>
 		{% endfor %}
@@ -137,3 +162,7 @@
 		{{ metadata.LANG_DESC|e('html') }} {{ metadata.LANG_VER|e('html') }} &bull; {{ metadata.LANG_AUTHOR|e('html') }}
 	</p>
 {% endmacro %}
+
+{% macro status(condition) -%}
+	<i class="icon fa fa-fw fa-lg {{ condition ? 'fa-check success' : 'fa-times error' }}"></i>
+{%- endmacro %}

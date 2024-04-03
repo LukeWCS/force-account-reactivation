@@ -23,11 +23,11 @@ class v_1_0_0 extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return [
-			['config.add', ['foraccrea_enable'				, 0]],
-			['config.add', ['foraccrea_time_range'			, 2]],
-			['config.add', ['foraccrea_time_range_type'		, 'years']],
-			['config.add', ['foraccrea_exclude_groups'		, '[]']],
-			['config.add', ['foraccrea_exclude_nru'			, 0]],
+			['config.add', ['foraccrea_enable'			, 0]],
+			['config.add', ['foraccrea_time_range'		, 2]],
+			['config.add', ['foraccrea_time_range_type'	, 'years']],
+			['config.add', ['foraccrea_exclude_groups'	, '[]']],
+			['config.add', ['foraccrea_exclude_nru'		, 0]],
 			['module.add', [
 				'acp',
 				'ACP_CAT_DOT_MODS',

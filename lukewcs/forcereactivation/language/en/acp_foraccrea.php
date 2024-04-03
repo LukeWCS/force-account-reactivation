@@ -43,6 +43,9 @@ $lang = array_merge($lang, [
 	'FORACCREA_CONFIG_TITLE'			=> 'Force Account Reactivation',
 	'FORACCREA_CONFIG_DESC'				=> 'Here you can change the settings for the <strong>%s</strong> extension.',
 
+	'FORACCREA_SERVICES_REQUIRED'		=> 'Required phpBB services',
+	'FORACCREA_SERVICES_OPTIONAL'		=> 'Optional phpBB services',
+
 	'FORACCREA_SETTINGS_TITLE'			=> 'Settings',
 	'FORACCREA_ENABLE'					=> 'Enable function',
 	'FORACCREA_ENABLE_EXPLAIN'			=> 'This switch allows you to disable forced account reactivation without having to disable the extension completely.',

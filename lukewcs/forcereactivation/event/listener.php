@@ -68,7 +68,7 @@ class listener implements EventSubscriberInterface
 			|| $user_row['user_email'] == ''
 		)
 		{
-			// Requirements not met, cancel process.
+			// Requirements not met, return control to phpBB.
 			return;
 		}
 
@@ -81,24 +81,30 @@ class listener implements EventSubscriberInterface
 		$this->db->sql_freeresult($result);
 		$user_lastvisit = $user_last_session['session_time'] ?? $user_row['user_lastvisit'] ?? 1;
 
-		// Determine the ID of the NRU group.
-		$sql = 'SELECT group_id, group_type, group_name
-				FROM ' . GROUPS_TABLE . '
-				WHERE group_name = "NEWLY_REGISTERED"';
-		$result = $this->db->sql_query($sql);
-		$fetchrow = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
-		$nru_group_id = $fetchrow['group_id'] ?? null;
-
-		// Check whether the user is excluded.
+		// Determine the user's groups.
 		$group_memberships = group_memberships(false, $user_row['user_id']);
 		$user_group_ids = array_column($group_memberships, 'group_id');
 
-		if ($nru_group_id !== null && array_search($nru_group_id, $user_group_ids) !== false)
+		// Check whether the user is excluded if NRU is enabled and the user is a member of the NRU group.
+		if ($this->config['new_member_post_limit'])
 		{
-			$exclude_user = $this->config['foraccrea_exclude_nru'];
+			// Determine the ID of the NRU group.
+			$sql = 'SELECT group_id, group_type, group_name
+					FROM ' . GROUPS_TABLE . '
+					WHERE group_name = "NEWLY_REGISTERED"';
+			$result = $this->db->sql_query($sql);
+			$nru_group = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
+			$nru_group_id = $nru_group['group_id'] ?? null;
+
+			if ($nru_group_id !== null && array_search($nru_group_id, $user_group_ids) !== false)
+			{
+				$exclude_user = (bool) $this->config['foraccrea_exclude_nru'];
+			}
 		}
-		else
+
+		// Check whether the user is excluded if the user is not a member of the NRU group.
+		if (!isset($exclude_user))
 		{
 			$exclude_group_ids = json_decode($this->config['foraccrea_exclude_groups']) ?? [];
 			$intersect_group_ids = array_intersect($user_group_ids, $exclude_group_ids);
@@ -107,6 +113,7 @@ class listener implements EventSubscriberInterface
 
 		// Check conditions for forced reactivation
 		if ($exclude_user
+			|| $user_lastvisit == 0
 			|| $user_lastvisit >= strtotime(' - ' .  $this->config['foraccrea_time_range'] . ' ' .  $this->config['foraccrea_time_range_type'])
 		)
 		{
