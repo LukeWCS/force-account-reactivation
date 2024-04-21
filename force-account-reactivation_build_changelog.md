@@ -1,3 +1,24 @@
+### 1.1.0
+* Release (2024-04-21)
+* Fix: Der seltene (exotische) Fall, wenn ein Benutzer keiner Gruppe zugeordnet ist, wird jetzt berücksichtigt, da dies zu einem FATAL führen konnte.
+* Benutzerkonten bei denen es noch keinen Login gab, können jetzt optional ebenfalls berücksichtigt werden.
+* ACP-Template:
+  * Neuen Schalter eingebaut für non-login Konten.
+* ACP-Controller:
+  * Den neuen non-login Schalter verdrahtet.
+* Code Optimierung:
+  * Unnötig aufwendigen SQL Code reduziert.
+  * Kleinere Verbesserungen.
+* JS:
+  * Abblenden an den neuen Schalter angepasst.
+* CSS:
+  * Einheitliche Notation von Werten kleiner 1.
+* Sprachdateien:
+  * 2 neue Variablen für den neuen Schalter.
+  * Kleinere Änderungen bei den deutschen Paketen.
+* Migration:
+  * Neue Migration für den non-login Schalter.
+
 ### 1.0.1
 * Release (2024-04-03)
 * Fix: In einer seltenen Situation konnte es vorkommen, dass ein Benutzer bei der Anmeldung von FAR ignoriert wurde. Dieser Fehler trat dann auf, wenn der Benutzer Mitglied der NRU Gruppe war und der Administrator die NRU Gruppe in FAR ausgeschlossen hat und dann zu einem späteren Zeitpunkt die NRU Funktion bei phpBB deaktiviert hat.

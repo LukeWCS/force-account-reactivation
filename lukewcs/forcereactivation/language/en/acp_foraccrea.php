@@ -40,25 +40,27 @@ if (empty($lang) || !is_array($lang))
 // ’ « » “ ” … „ “
 
 $lang = array_merge($lang, [
-	'FORACCREA_CONFIG_TITLE'			=> 'Force Account Reactivation',
-	'FORACCREA_CONFIG_DESC'				=> 'Here you can change the settings for the <strong>%s</strong> extension.',
+	'FORACCREA_CONFIG_TITLE'				=> 'Force Account Reactivation',
+	'FORACCREA_CONFIG_DESC'					=> 'Here you can change the settings for the <strong>%s</strong> extension.',
 
-	'FORACCREA_SERVICES_REQUIRED'		=> 'Required phpBB services',
-	'FORACCREA_SERVICES_OPTIONAL'		=> 'Optional phpBB services',
+	'FORACCREA_SERVICES_REQUIRED'			=> 'Required phpBB services',
+	'FORACCREA_SERVICES_OPTIONAL'			=> 'Optional phpBB services',
 
-	'FORACCREA_SETTINGS_TITLE'			=> 'Settings',
-	'FORACCREA_ENABLE'					=> 'Enable function',
-	'FORACCREA_ENABLE_EXPLAIN'			=> 'This switch allows you to disable forced account reactivation without having to disable the extension completely.',
-	'FORACCREA_TIME_RANGE'				=> 'Valid time period',
-	'FORACCREA_TIME_RANGE_EXPLAIN'		=> 'Here you can specify the maximum time ago that a user account was last logged in before reactivation is forced.',
-	'FORACCREA_TIME_RANGE_YEARS'		=> 'Years',
-	'FORACCREA_TIME_RANGE_MONTHS'		=> 'Months',
-	'FORACCREA_EXCLUDE_GROUPS'			=> 'Exclude groups',
-	'FORACCREA_EXCLUDE_GROUPS_EXPLAIN'	=> 'Here you can select groups to exclude from a forced account reactivation. Founders and bots are generally excluded. If a user is a member of an excluded group, they will be excluded even if they are not excluded in other groups.',
-	'FORACCREA_EXCLUDE_NRU'				=> 'Exclude “Newly registered users”',
-	'FORACCREA_EXCLUDE_NRU_EXPLAIN'		=> 'If a user is a member of this group, it does not matter which selection is made for “Exclude groups”, as only this switch is relevant.',
+	'FORACCREA_SETTINGS_TITLE'				=> 'Settings',
+	'FORACCREA_ENABLE'						=> 'Enable function',
+	'FORACCREA_ENABLE_EXPLAIN'				=> 'This switch allows you to disable forced account reactivation without having to disable the extension completely.',
+	'FORACCREA_TIME_RANGE'					=> 'Valid time period',
+	'FORACCREA_TIME_RANGE_EXPLAIN'			=> 'Here you can specify the maximum time ago that a user account was last logged in before reactivation is forced.',
+	'FORACCREA_TIME_RANGE_YEARS'			=> 'Years',
+	'FORACCREA_TIME_RANGE_MONTHS'			=> 'Months',
+	'FORACCREA_CONSIDER_NON_LOGIN'			=> 'Consider non-login user accounts',
+	'FORACCREA_CONSIDER_NON_LOGIN_EXPLAIN'	=> 'If this switch is activated, user accounts that have never been logged in will also be taken into account. For such accounts, the date of registration counts as the last login.',
+	'FORACCREA_EXCLUDE_GROUPS'				=> 'Exclude groups',
+	'FORACCREA_EXCLUDE_GROUPS_EXPLAIN'		=> 'Here you can select groups to exclude from a forced account reactivation. Founders, guests and bots are generally excluded. If a user is a member of an excluded group, they will be excluded even if they are not excluded in other groups.',
+	'FORACCREA_EXCLUDE_NRU'					=> 'Exclude “Newly registered users”',
+	'FORACCREA_EXCLUDE_NRU_EXPLAIN'			=> 'If a user is a member of this group, it does not matter which selection is made for “Exclude groups”, as only this switch is relevant.',
 
-	'FORACCREA_MULTISELECT_EXPLAIN'		=> 'You can make multiple selections or deselect individual entries by holding down the “Ctrl” key (“cmd” on macOS).',
+	'FORACCREA_MULTISELECT_EXPLAIN'			=> 'You can make multiple selections or deselect individual entries by holding down the “Ctrl” key (“cmd” on macOS).',
 
-	'FORACCREA_MSG_SAVED_SETTINGS'		=> 'Force Account Reactivation: Settings saved successfully',
+	'FORACCREA_MSG_SAVED_SETTINGS'			=> 'Force Account Reactivation: Settings saved successfully',
 ]);

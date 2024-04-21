@@ -66,6 +66,16 @@
 
 		<dl>
 			<dt>
+				<label>{{ lang('FORACCREA_CONSIDER_NON_LOGIN') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('FORACCREA_CONSIDER_NON_LOGIN_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				{{ _self.switch('foraccrea_consider_non_login', FORACCREA_CONSIDER_NON_LOGIN, switch_type) }}
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
 				<label>{{ lang('FORACCREA_EXCLUDE_GROUPS') ~ lang('COLON') }}</label><br>
 				<span>{{ lang('FORACCREA_EXCLUDE_GROUPS_EXPLAIN') }}</span>
 				<br><br>
@@ -73,7 +83,6 @@
 			</dt>
 			<dd>
 				{{ _self.select('foraccrea_exclude_groups', FORACCREA_EXCLUDE_GROUPS, true, 8) }}
-
 			</dd>
 		</dl>
 

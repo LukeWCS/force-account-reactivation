@@ -65,6 +65,7 @@ class acp_foraccrea_controller
 			$this->config->set('foraccrea_enable'				, $this->request->variable('foraccrea_enable'						, 0));
 			$this->config->set('foraccrea_time_range'			, $this->request->variable('foraccrea_time_range'					, 2));
 			$this->config->set('foraccrea_time_range_type'		, $this->request->variable('foraccrea_time_range_type'				, 'years'));
+			$this->config->set('foraccrea_consider_non_login'	, $this->request->variable('foraccrea_consider_non_login'			, 0));
 			$this->config->set('foraccrea_exclude_groups'		, json_encode($this->request->variable('foraccrea_exclude_groups'	, [0])));
 			$this->config->set('foraccrea_exclude_nru'			, $this->request->variable('foraccrea_exclude_nru'					, 0));
 
@@ -107,6 +108,7 @@ class acp_foraccrea_controller
 				['FORACCREA_TIME_RANGE_YEARS',	'years'],
 				['FORACCREA_TIME_RANGE_MONTHS',	'months'],
 			]),
+			'FORACCREA_CONSIDER_NON_LOGIN'	=> $this->config['foraccrea_consider_non_login'],
 			'FORACCREA_EXCLUDE_GROUPS'		=> $this->select_struct(json_decode($this->config['foraccrea_exclude_groups']) ?? [],
 				$exclude_groups
 			),

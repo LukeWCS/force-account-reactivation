@@ -1,3 +1,15 @@
+### 1.1.0
+(2024-04-21)
+
+* Fix: Der seltene (exotische) Fall, wenn ein Benutzer keiner Gruppe zugeordnet ist, wird jetzt berücksichtigt, da dies zu einem FATAL führen konnte.
+* Benutzerkonten bei denen es noch keinen Login gab, können jetzt optional ebenfalls berücksichtigt werden. Dafür gibt es einen neuen Schalter, der per Standard deaktiviert ist.
+* Code Optimierung:
+  * Unnötig aufwendigen SQL Code reduziert.
+  * Kleinere Verbesserungen.
+* Sprachdateien:
+  * 2 neue Variablen für den neuen Schalter.
+  * Kleinere Änderungen bei den deutschen Paketen.
+
 ### 1.0.1
 (2024-04-03)
 

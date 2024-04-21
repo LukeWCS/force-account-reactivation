@@ -73,31 +73,36 @@ class listener implements EventSubscriberInterface
 		}
 
 		// Determine the user's last visit.
-		$sql = 'SELECT session_user_id, MAX(session_time) AS session_time
+		$sql = 'SELECT MAX(session_time) AS session_time
 				FROM ' . SESSIONS_TABLE . '
 				WHERE session_user_id = ' . (int) $user_row['user_id'];
 		$result = $this->db->sql_query($sql);
 		$user_last_session = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
-		$user_lastvisit = $user_last_session['session_time'] ?? $user_row['user_lastvisit'] ?? 1;
+		$user_lastvisit = $user_last_session['session_time'] ?? $user_row['user_lastvisit'];
 
 		// Determine the user's groups.
-		$group_memberships = group_memberships(false, $user_row['user_id']);
+		$group_memberships = group_memberships(false, $user_row['user_id']) ?: [];
 		$user_group_ids = array_column($group_memberships, 'group_id');
+
+		// Check whether a user account without login should be taken into account.
+		if ($user_lastvisit == 0 && $this->config['foraccrea_consider_non_login'])
+		{
+			$user_lastvisit = $user_row['user_regdate'];
+		}
 
 		// Check whether the user is excluded if NRU is enabled and the user is a member of the NRU group.
 		if ($this->config['new_member_post_limit'])
 		{
-			// Determine the ID of the NRU group.
-			$sql = 'SELECT group_id, group_type, group_name
+			$sql = 'SELECT group_id
 					FROM ' . GROUPS_TABLE . '
-					WHERE group_name = "NEWLY_REGISTERED"';
+					WHERE group_name = "NEWLY_REGISTERED"
+						AND group_type = ' . GROUP_SPECIAL;
 			$result = $this->db->sql_query($sql);
-			$nru_group = $this->db->sql_fetchrow($result);
+			$nru_group_id = $this->db->sql_fetchfield('group_id');
 			$this->db->sql_freeresult($result);
-			$nru_group_id = $nru_group['group_id'] ?? null;
 
-			if ($nru_group_id !== null && array_search($nru_group_id, $user_group_ids) !== false)
+			if ($nru_group_id !== false && array_search($nru_group_id, $user_group_ids) !== false)
 			{
 				$exclude_user = (bool) $this->config['foraccrea_exclude_nru'];
 			}
@@ -111,10 +116,10 @@ class listener implements EventSubscriberInterface
 			$exclude_user = count($intersect_group_ids) > 0;
 		}
 
-		// Check conditions for forced reactivation
+		// Check conditions for forced reactivation.
 		if ($exclude_user
 			|| $user_lastvisit == 0
-			|| $user_lastvisit >= strtotime(' - ' .  $this->config['foraccrea_time_range'] . ' ' .  $this->config['foraccrea_time_range_type'])
+			|| $user_lastvisit >= strtotime("- {$this->config['foraccrea_time_range']} {$this->config['foraccrea_time_range_type']}")
 		)
 		{
 			// We don't have to act, user is allowed to pass.

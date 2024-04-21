@@ -27,6 +27,10 @@ function setState() {
 		!$('[name="foraccrea_enable"]').prop('checked')
 		|| !foraccrea.mail_enabled
 	);
+	dimOptionGroup('[name="foraccrea_consider_non_login"]',
+		!$('[name="foraccrea_enable"]').prop('checked')
+		|| !foraccrea.mail_enabled
+	);
 	dimOptionGroup('[name="foraccrea_exclude_nru"]',
 		!$('[name="foraccrea_enable"]').prop('checked')
 		|| !foraccrea.mail_enabled

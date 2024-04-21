@@ -3,7 +3,7 @@
 .foraccrea_footer {
 	margin-top: 1em;
 	text-align: center;
-	font-size: .75em;
+	font-size: 0.75em;
 }
 
 /* SETTINGS */
@@ -93,6 +93,6 @@ code {
 	}
 
 	#foraccrea_settings dd {
-		margin-top: .5em;
+		margin-top: 0.5em;
 	}
 }

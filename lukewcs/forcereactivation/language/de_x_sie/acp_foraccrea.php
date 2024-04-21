@@ -40,25 +40,27 @@ if (empty($lang) || !is_array($lang))
 // ’ « » “ ” … „ “
 
 $lang = array_merge($lang, [
-	'FORACCREA_CONFIG_TITLE'			=> 'Konto-Reaktivierung erzwingen',
-	'FORACCREA_CONFIG_DESC'				=> 'Hier können Sie die Einstellungen für die Erweiterung <strong>%s</strong> ändern.',
+	'FORACCREA_CONFIG_TITLE'				=> 'Konto-Reaktivierung erzwingen',
+	'FORACCREA_CONFIG_DESC'					=> 'Hier können Sie die Einstellungen für die Erweiterung <strong>%s</strong> ändern.',
 
-	'FORACCREA_SERVICES_REQUIRED'		=> 'Benötigte phpBB Dienste',
-	'FORACCREA_SERVICES_OPTIONAL'		=> 'Optionale phpBB Dienste',
+	'FORACCREA_SERVICES_REQUIRED'			=> 'Benötigte phpBB Dienste',
+	'FORACCREA_SERVICES_OPTIONAL'			=> 'Optionale phpBB Dienste',
 
-	'FORACCREA_SETTINGS_TITLE'			=> 'Einstellungen',
-	'FORACCREA_ENABLE'					=> 'Funktion aktivieren',
-	'FORACCREA_ENABLE_EXPLAIN'			=> 'Mit diesem Schalter können Sie die erzwungene Konto-Reaktivierung deaktivieren, ohne die Erweiterung komplett deaktivieren zu müssen.',
-	'FORACCREA_TIME_RANGE'				=> 'Gültiger Zeitraum',
-	'FORACCREA_TIME_RANGE_EXPLAIN'		=> 'Hier können Sie festlegen, wie lange die letzte Anmeldung eines Benutzerkontos maximal her sein darf, bevor eine Reaktivierung erzwungen wird.',
-	'FORACCREA_TIME_RANGE_YEARS'		=> 'Jahre',
-	'FORACCREA_TIME_RANGE_MONTHS'		=> 'Monate',
-	'FORACCREA_EXCLUDE_GROUPS'			=> 'Gruppen ausschließen',
-	'FORACCREA_EXCLUDE_GROUPS_EXPLAIN'	=> 'Hier können Sie Gruppen auswählen, die von einer erzwungenen Konto-Reaktivierung ausgeschlossen werden sollen. Gründer und Bots sind generell ausgeschlossen. Ist ein Benutzer Mitglied einer ausgeschlossenen Gruppe, wird er auch dann ausgeschlossen, wenn er in anderen Gruppen nicht ausgeschlossen ist.',
-	'FORACCREA_EXCLUDE_NRU'				=> '„Kürzlich registrierte Benutzer“ ausschließen',
-	'FORACCREA_EXCLUDE_NRU_EXPLAIN'		=> 'Wenn ein Benutzer Mitglied in dieser Gruppe ist, spielt es keine Rolle welche Auswahl bei „Gruppen ausschließen“ vorgenommen wird, da nur dieser Schalter relevant ist.',
+	'FORACCREA_SETTINGS_TITLE'				=> 'Einstellungen',
+	'FORACCREA_ENABLE'						=> 'Funktion aktivieren',
+	'FORACCREA_ENABLE_EXPLAIN'				=> 'Mit diesem Schalter können Sie die erzwungene Konto-Reaktivierung deaktivieren, ohne die Erweiterung komplett deaktivieren zu müssen.',
+	'FORACCREA_TIME_RANGE'					=> 'Gültiger Zeitraum',
+	'FORACCREA_TIME_RANGE_EXPLAIN'			=> 'Hier können Sie festlegen, wie lange die letzte Anmeldung eines Benutzerkontos maximal her sein darf, bevor eine Reaktivierung erzwungen wird.',
+	'FORACCREA_TIME_RANGE_YEARS'			=> 'Jahre',
+	'FORACCREA_TIME_RANGE_MONTHS'			=> 'Monate',
+	'FORACCREA_CONSIDER_NON_LOGIN'			=> 'Berücksichtige Benutzerkonten ohne Anmeldung',
+	'FORACCREA_CONSIDER_NON_LOGIN_EXPLAIN'	=> 'Wenn dieser Schalter aktiviert ist, werden Benutzerkonten, mit denen noch nie eine Anmeldung durchgeführt wurde, ebenso berücksichtigt. Bei solchen Konten zählt das Datum der Registrierung als letzte Anmeldung.',
+	'FORACCREA_EXCLUDE_GROUPS'				=> 'Gruppen ausschließen',
+	'FORACCREA_EXCLUDE_GROUPS_EXPLAIN'		=> 'Hier können Sie Gruppen auswählen, die von einer erzwungenen Konto-Reaktivierung ausgeschlossen werden sollen. Gründer, Gäste und Bots sind generell ausgeschlossen. Ist ein Benutzer Mitglied einer ausgeschlossenen Gruppe, wird er auch dann ausgeschlossen, wenn er in anderen Gruppen nicht ausgeschlossen ist.',
+	'FORACCREA_EXCLUDE_NRU'					=> '„Kürzlich registrierte Benutzer“ ausschließen',
+	'FORACCREA_EXCLUDE_NRU_EXPLAIN'			=> 'Wenn ein Benutzer Mitglied in dieser Gruppe ist, spielt es keine Rolle welche Auswahl bei „Gruppen ausschließen“ vorgenommen wird, da nur dieser Schalter relevant ist.',
 
-	'FORACCREA_MULTISELECT_EXPLAIN'		=> 'Mit der gedrückten Taste „Strg“ („cmd“ bei macOS) können Sie eine Mehrfachauswahl vornehmen oder einzelne Einträge abwählen.',
+	'FORACCREA_MULTISELECT_EXPLAIN'			=> 'Mit der gedrückten Taste „Strg“ („cmd“ bei macOS) können Sie eine Mehrfachauswahl vornehmen oder einzelne Einträge abwählen.',
 
-	'FORACCREA_MSG_SAVED_SETTINGS'		=> 'Force Account Reactivation: Einstellungen erfolgreich gespeichert',
+	'FORACCREA_MSG_SAVED_SETTINGS'			=> 'Konto-Reaktivierung erzwingen: Einstellungen erfolgreich gespeichert',
 ]);
