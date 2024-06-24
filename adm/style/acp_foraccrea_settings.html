@@ -17,7 +17,7 @@
 <a id="maincontent"></a>
 
 <h1>{{ lang('FORACCREA_CONFIG_TITLE') }}</h1>
-<p>{{ lang('FORACCREA_CONFIG_DESC', FORACCREA_METADATA.EXT_NAME) }}</p>
+<p>{{ lang('FORACCREA_CONFIG_DESC', FORACCREA_METADATA.ext_name) }}</p>
 
 {{ _self.notes(FORACCREA_NOTES) }}
 
@@ -30,7 +30,7 @@
 				<label>{{ lang('FORACCREA_SERVICES_REQUIRED') ~ lang('COLON') }}</label><br>
 			</dt>
 			<dd>
-				{{ _self.status(FORACCREA_MAIL_ENABLED) }} {{ lang('EMAIL') }}<br>
+				{{ _self.status(FORACCREA_MAIL_ENABLED, 'EMAIL') }}<br>
 			</dd>
 		</dl>
 
@@ -39,7 +39,7 @@
 				<label>{{ lang('FORACCREA_SERVICES_OPTIONAL') ~ lang('COLON') }}</label><br>
 			</dt>
 			<dd>
-				{{ _self.status(FORACCREA_NRU_ENABLED) }} {{ lang('G_NEWLY_REGISTERED') }}<br>
+				{{ _self.status(FORACCREA_NRU_ENABLED, 'G_NEWLY_REGISTERED') }}<br>
 			</dd>
 		</dl>
 
@@ -60,7 +60,7 @@
 			</dt>
 			<dd>
 				{{ _self.number('foraccrea_time_range', FORACCREA_TIME_RANGE, 1, 99) }}
-				{{ _self.select('foraccrea_time_range_type', FORACCREA_TIME_RANGE_TYPES) }}
+				{{ _self.select('foraccrea_time_range_type', FORACCREA_TIME_RANGE_TYPE_OPTS) }}
 			</dd>
 		</dl>
 
@@ -166,12 +166,15 @@
 {% endmacro %}
 
 {% macro footer(metadata) %}
-	<p class="{{ metadata.CLASS  }}">
-		{{ metadata.EXT_NAME }} {{ metadata.EXT_VER }} &copy; LukeWCS<br>
-		{{ metadata.LANG_DESC|e('html') }} {{ metadata.LANG_VER|e('html') }} &bull; {{ metadata.LANG_AUTHOR|e('html') }}
+	<p class="{{ metadata.class  }}">
+		{{ metadata.ext_name }} {{ metadata.ext_ver }} &copy; {{ metadata.ext_copyright }}
+		{% if metadata.lang_ver is defined %}
+			<br>
+			{{ metadata.lang_desc|e('html') }} {{ metadata.lang_ver|e('html') }} &bull; {{ metadata.lang_author|e('html') }}
+		{% endif %}
 	</p>
 {% endmacro %}
 
-{% macro status(condition) -%}
-	<i class="icon fa fa-fw fa-lg {{ condition ? 'fa-check success' : 'fa-times error' }}"></i>
+{% macro status(condition, lang_var) -%}
+	<i class="icon fa fa-fw fa-lg {{ condition ? 'fa-check success' : 'fa-times error' }}"></i> {{ lang(lang_var) }}
 {%- endmacro %}

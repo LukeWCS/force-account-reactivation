@@ -42,7 +42,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, [
 	// language pack author
 	'FORACCREA_LANG_DESC'					=> 'English',
-	'FORACCREA_LANG_VER'	 				=> '1.1.0',
+	'FORACCREA_LANG_VER'	 				=> '1.1.1',
 	'FORACCREA_LANG_AUTHOR'		 			=> 'LukeWCS',
 
 	// messages

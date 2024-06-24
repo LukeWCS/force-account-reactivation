@@ -56,7 +56,7 @@ class listener implements EventSubscriberInterface
 	}
 
 	// Code was partially ported from "includes\acp\acp_users.php"
-	public function check_force_reactivation($event)
+	public function check_force_reactivation($event): void
 	{
 		$user_row = $event['login']['user_row'];
 
@@ -171,7 +171,7 @@ class listener implements EventSubscriberInterface
 		trigger_error($this->language->lang('FORACCREA_MSG_REACTIVATION_EXPLANATION'));
 	}
 
-	public function user_mgr_template_vars($event)
+	public function user_mgr_template_vars($event): void
 	{
 		$user_row = $event['user_row'];
 

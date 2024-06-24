@@ -48,7 +48,7 @@ $lang = array_merge($lang, [
 
 	'FORACCREA_SETTINGS_TITLE'				=> 'Settings',
 	'FORACCREA_ENABLE'						=> 'Enable function',
-	'FORACCREA_ENABLE_EXPLAIN'				=> 'This switch allows you to disable forced account reactivation without having to disable the extension completely.',
+	'FORACCREA_ENABLE_EXPLAIN'				=> 'With this switch you can deactivate the functionality without having to deactivate the extension completely.',
 	'FORACCREA_TIME_RANGE'					=> 'Valid time period',
 	'FORACCREA_TIME_RANGE_EXPLAIN'			=> 'Here you can specify the maximum time ago that a user account was last logged in before reactivation is forced.',
 	'FORACCREA_TIME_RANGE_YEARS'			=> 'Years',

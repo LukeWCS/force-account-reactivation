@@ -53,7 +53,7 @@ class acp_foraccrea_controller
 		$notes = [];
 
 		$this->language->add_lang(['acp_foraccrea', 'acp_foraccrea_lang_author'], 'lukewcs/forcereactivation');
-		$this->set_meta_template_vars('FORACCREA');
+		$this->set_meta_template_vars('FORACCREA', 'LukeWCS');
 
 		if ($this->request->is_set_post('submit'))
 		{
@@ -97,22 +97,22 @@ class acp_foraccrea_controller
 		}
 
 		$this->template->assign_vars([
-			'FORACCREA_NOTES'				=> $notes,
+			'FORACCREA_NOTES'					=> $notes,
 
-			'FORACCREA_MAIL_ENABLED'		=> (bool) $this->config['email_enable'],
-			'FORACCREA_NRU_ENABLED'			=> (bool) $this->config['new_member_post_limit'],
+			'FORACCREA_MAIL_ENABLED'			=> (bool) $this->config['email_enable'],
+			'FORACCREA_NRU_ENABLED'				=> (bool) $this->config['new_member_post_limit'],
 
-			'FORACCREA_ENABLE'				=> $this->config['foraccrea_enable'],
-			'FORACCREA_TIME_RANGE'			=> $this->config['foraccrea_time_range'],
-			'FORACCREA_TIME_RANGE_TYPES'	=> $this->select_struct($this->config['foraccrea_time_range_type'], [
-				['FORACCREA_TIME_RANGE_YEARS',	'years'],
-				['FORACCREA_TIME_RANGE_MONTHS',	'months'],
+			'FORACCREA_ENABLE'					=> (bool) $this->config['foraccrea_enable'],
+			'FORACCREA_TIME_RANGE'				=> (int) $this->config['foraccrea_time_range'],
+			'FORACCREA_TIME_RANGE_TYPE_OPTS'	=> $this->select_struct($this->config['foraccrea_time_range_type'], [
+				['FORACCREA_TIME_RANGE_YEARS'	, 'years'],
+				['FORACCREA_TIME_RANGE_MONTHS'	, 'months'],
 			]),
-			'FORACCREA_CONSIDER_NON_LOGIN'	=> $this->config['foraccrea_consider_non_login'],
-			'FORACCREA_EXCLUDE_GROUPS'		=> $this->select_struct(json_decode($this->config['foraccrea_exclude_groups']) ?? [],
+			'FORACCREA_CONSIDER_NON_LOGIN'		=> (bool) $this->config['foraccrea_consider_non_login'],
+			'FORACCREA_EXCLUDE_GROUPS'			=> $this->select_struct(json_decode($this->config['foraccrea_exclude_groups']) ?? [],
 				$exclude_groups
 			),
-			'FORACCREA_EXCLUDE_NRU'			=> $this->config['foraccrea_exclude_nru'],
+			'FORACCREA_EXCLUDE_NRU'				=> (bool) $this->config['foraccrea_exclude_nru'],
 		]);
 
 		add_form_key('lukewcs_forcereactivation');
@@ -140,18 +140,21 @@ class acp_foraccrea_controller
 		return $options;
 	}
 
-	private function set_meta_template_vars(string $tpl_prefix): void
+	private function set_meta_template_vars(string $tpl_prefix, string $copyright): void
 	{
-		$this->template->assign_vars([
-			$tpl_prefix . '_METADATA' => [
-				'EXT_NAME'		=> $this->metadata['extra']['display-name'],
-				'EXT_VER'		=> $this->language->lang($tpl_prefix . '_VERSION_STRING', $this->metadata['version']),
-				'LANG_DESC'		=> $this->language->lang($tpl_prefix . '_LANG_DESC'),
-				'LANG_VER'		=> $this->language->lang($tpl_prefix . '_VERSION_STRING', $this->language->lang($tpl_prefix . '_LANG_VER')),
-				'LANG_AUTHOR'	=> $this->language->lang($tpl_prefix . '_LANG_AUTHOR'),
-				'CLASS'			=> strtolower($tpl_prefix) . '_footer',
-			],
-		]);
+		$template_vars = [
+			'ext_name'		=> $this->metadata['extra']['display-name'],
+			'ext_ver'		=> $this->language->lang($tpl_prefix . '_VERSION_STRING', $this->metadata['version']),
+			'ext_copyright'	=> $copyright,
+			'class'			=> strtolower($tpl_prefix) . '_footer',
+		];
+		$template_vars += $this->language->is_set($tpl_prefix . '_LANG_VER') ? [
+			'lang_desc'		=> $this->language->lang($tpl_prefix . '_LANG_DESC'),
+			'lang_ver'		=> $this->language->lang($tpl_prefix . '_VERSION_STRING', $this->language->lang($tpl_prefix . '_LANG_VER')),
+			'lang_author'	=> $this->language->lang($tpl_prefix . '_LANG_AUTHOR'),
+		] : [];
+
+		$this->template->assign_vars([$tpl_prefix . '_METADATA' => $template_vars]);
 	}
 
 	// Check the language pack version for the minimum version and generate notice if outdated

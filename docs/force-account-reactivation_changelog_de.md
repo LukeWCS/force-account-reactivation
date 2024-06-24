@@ -1,3 +1,9 @@
+### 1.1.1
+(2024-06-24)
+
+* Reines Optimier-Update, keine funktionellen Änderungen.
+* Repo Struktur Composer-tauglich gestaltet.
+
 ### 1.1.0
 (2024-04-21)
 
@@ -25,4 +31,3 @@
 (2024-03-24)
 
 * Erste offizielle Version.
-

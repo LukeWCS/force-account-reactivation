@@ -1,3 +1,14 @@
+### 1.1.1
+* Release (2024-04-26)
+* ACP-Template:
+  * Im Twig Makro `status` kann jetzt direkt die Sprachvariable für die Beschreibung übergeben werden, wodurch ein separates `lang()` entfällt.
+  * Aktuelles Makro `footer()` von LMR übernommen.
+* ACP-Controller:
+  * Aktuelle Funktion `set_meta_template_vars` von LMR übernommen.
+  * Kleinere Änderungen.
+* Sprachdateien:
+  * Kleinere Änderungen.
+
 ### 1.1.0
 * Release (2024-04-21)
 * Fix: Der seltene (exotische) Fall, wenn ein Benutzer keiner Gruppe zugeordnet ist, wird jetzt berücksichtigt, da dies zu einem FATAL führen konnte.
