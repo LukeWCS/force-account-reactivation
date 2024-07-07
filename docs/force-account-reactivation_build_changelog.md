@@ -1,10 +1,15 @@
+### 1.1.2
+* Release (2024-07-07)
+* Fix: Wenn `group_memberships()` im Kontext fehlt, wird die phpBB Komponente nachgeladen. Damit wird ein FATAL beim ACP-Login von nicht-Gründern behoben.
+* ACP-Logins werden von FAR jetzt generell ignoriert.
+
 ### 1.1.1
 * Release (2024-04-26)
 * ACP-Template:
-  * Im Twig Makro `status` kann jetzt direkt die Sprachvariable für die Beschreibung übergeben werden, wodurch ein separates `lang()` entfällt.
+  * Im Twig Makro `status()` kann jetzt direkt die Sprachvariable für die Beschreibung übergeben werden, wodurch ein separates `lang()` entfällt.
   * Aktuelles Makro `footer()` von LMR übernommen.
 * ACP-Controller:
-  * Aktuelle Funktion `set_meta_template_vars` von LMR übernommen.
+  * Aktuelle Funktion `set_meta_template_vars()` von LMR übernommen.
   * Kleinere Änderungen.
 * Sprachdateien:
   * Kleinere Änderungen.

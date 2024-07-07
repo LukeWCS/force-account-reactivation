@@ -63,12 +63,13 @@ class listener implements EventSubscriberInterface
 		// Check requirements
 		if ($event['login']['status'] != LOGIN_SUCCESS
 			|| $user_row['user_type'] != USER_NORMAL
+			|| $event['admin']
 			|| !$this->config['foraccrea_enable']
 			|| !$this->config['email_enable']
 			|| $user_row['user_email'] == ''
 		)
 		{
-			// Requirements not met, return control to phpBB.
+			// User does not need to be verified, return control to phpBB.
 			return;
 		}
 
@@ -82,6 +83,10 @@ class listener implements EventSubscriberInterface
 		$user_lastvisit = $user_last_session['session_time'] ?? $user_row['user_lastvisit'];
 
 		// Determine the user's groups.
+		if (!function_exists('group_memberships'))
+		{
+			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
+		}
 		$group_memberships = group_memberships(false, $user_row['user_id']) ?: [];
 		$user_group_ids = array_column($group_memberships, 'group_id');
 
@@ -122,7 +127,7 @@ class listener implements EventSubscriberInterface
 			|| $user_lastvisit >= strtotime("- {$this->config['foraccrea_time_range']} {$this->config['foraccrea_time_range_type']}")
 		)
 		{
-			// We don't have to act, user is allowed to pass.
+			// User is allowed to pass, return control to phpBB.
 			return;
 		}
 

@@ -1,3 +1,8 @@
+### 1.1.2
+(2024-07-07)
+* Fix: Wenn ein Benutzer mit Admin-Rechten aber ohne Gründer-Status einen ACP-Login durchgeführt hat, verursachte das einen FATAL, da in diesem Kontext eine benötigte phpBB Funktion nicht vorhanden war. Jetzt wird geprüft, ob die betreffende phpBB Funktion im Kontext vorhanden ist und wenn nicht, wird die entsprechende phpBB Komponente nachgeladen.
+* Ergänzend zum Fix; FAR reagiert nur noch bei primären Logins, jedoch nicht mehr bei sekundären ACP-Logins. Das war ohnehin nicht sinnvoll.
+
 ### 1.1.1
 (2024-06-24)
 
