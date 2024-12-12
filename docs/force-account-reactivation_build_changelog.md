@@ -1,3 +1,13 @@
+### 1.1.3
+* Release (2024-12-12)
+* PHP:
+  * Code verwendet jetzt 7.4 Features.
+  * Code strikter gestaltet.
+* ACP-Controller:
+  * Aktuelle Funktion `select_struct()` von EMP 3.0 übernommen.
+* ext.php`/`composer.json` angepasst:
+  * PHP: 7.1.3-8.3.x -> 7.4.0-8.4.x
+
 ### 1.1.2
 * Release (2024-07-07)
 * Fix: Wenn `group_memberships()` im Kontext fehlt, wird die phpBB Komponente nachgeladen. Damit wird ein FATAL beim ACP-Login von nicht-Gründern behoben.

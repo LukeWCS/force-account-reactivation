@@ -17,14 +17,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener implements EventSubscriberInterface
 {
-	protected $language;
-	protected $template;
-	protected $config;
-	protected $user;
-	protected $log;
-	protected $db;
-	protected $phpbb_root_path;
-	protected $php_ext;
+	protected object $language;
+	protected object $template;
+	protected object $config;
+	protected object $user;
+	protected object $log;
+	protected object $db;
+	protected string $phpbb_root_path;
+	protected string $php_ext;
 
 	public function __construct(
 		\phpbb\language\language $language,
@@ -47,7 +47,7 @@ class listener implements EventSubscriberInterface
 		$this->php_ext			= $php_ext;
 	}
 
-	public static function getSubscribedEvents()
+	public static function getSubscribedEvents(): array
 	{
 		return [
 			'core.auth_login_session_create_before' => 'check_force_reactivation',
@@ -55,12 +55,15 @@ class listener implements EventSubscriberInterface
 		];
 	}
 
-	// Code was partially ported from "includes\acp\acp_users.php"
+	/*
+		Code was partially ported from "includes\acp\acp_users.php"
+		EVENT: core.auth_login_session_create_before
+	*/
 	public function check_force_reactivation($event): void
 	{
 		$user_row = $event['login']['user_row'];
 
-		// Check requirements
+		/* Check requirements */
 		if ($event['login']['status'] != LOGIN_SUCCESS
 			|| $user_row['user_type'] != USER_NORMAL
 			|| $event['admin']
@@ -69,11 +72,11 @@ class listener implements EventSubscriberInterface
 			|| $user_row['user_email'] == ''
 		)
 		{
-			// User does not need to be verified, return control to phpBB.
+			/* User does not need to be verified, return control to phpBB. */
 			return;
 		}
 
-		// Determine the user's last visit.
+		/* Determine the user's last visit. */
 		$sql = 'SELECT MAX(session_time) AS session_time
 				FROM ' . SESSIONS_TABLE . '
 				WHERE session_user_id = ' . (int) $user_row['user_id'];
@@ -82,7 +85,7 @@ class listener implements EventSubscriberInterface
 		$this->db->sql_freeresult($result);
 		$user_lastvisit = $user_last_session['session_time'] ?? $user_row['user_lastvisit'];
 
-		// Determine the user's groups.
+		/* Determine the user's groups. */
 		if (!function_exists('group_memberships'))
 		{
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
@@ -90,13 +93,13 @@ class listener implements EventSubscriberInterface
 		$group_memberships = group_memberships(false, $user_row['user_id']) ?: [];
 		$user_group_ids = array_column($group_memberships, 'group_id');
 
-		// Check whether a user account without login should be taken into account.
+		/* Check whether a user account without login should be taken into account. */
 		if ($user_lastvisit == 0 && $this->config['foraccrea_consider_non_login'])
 		{
 			$user_lastvisit = $user_row['user_regdate'];
 		}
 
-		// Check whether the user is excluded if NRU is enabled and the user is a member of the NRU group.
+		/* Check whether the user is excluded if NRU is enabled and the user is a member of the NRU group. */
 		if ($this->config['new_member_post_limit'])
 		{
 			$sql = 'SELECT group_id
@@ -113,7 +116,7 @@ class listener implements EventSubscriberInterface
 			}
 		}
 
-		// Check whether the user is excluded if the user is not a member of the NRU group.
+		/* Check whether the user is excluded if the user is not a member of the NRU group. */
 		if (!isset($exclude_user))
 		{
 			$exclude_group_ids = json_decode($this->config['foraccrea_exclude_groups']) ?? [];
@@ -121,25 +124,25 @@ class listener implements EventSubscriberInterface
 			$exclude_user = count($intersect_group_ids) > 0;
 		}
 
-		// Check conditions for forced reactivation.
+		/* Check conditions for forced reactivation. */
 		if ($exclude_user
 			|| $user_lastvisit == 0
 			|| $user_lastvisit >= strtotime("- {$this->config['foraccrea_time_range']} {$this->config['foraccrea_time_range_type']}")
 		)
 		{
-			// User is allowed to pass, return control to phpBB.
+			/* User is allowed to pass, return control to phpBB. */
 			return;
 		}
 
-		// Set user language and (re)load language files.
+		/* Set user language and (re)load language files. */
 		$this->language->set_user_language($user_row['user_lang'], true);
 		$this->language->add_lang('common');
 		$this->language->add_lang('foraccrea_login', 'lukewcs/forcereactivation');
 
-		// Deactivate the user account and set status to "Forced user account reactivation".
+		/* Deactivate the user account and set status to "Forced user account reactivation". */
 		user_active_flip('deactivate', $user_row['user_id'], INACTIVE_REMIND);
 
-		// Update the user's last visit and add the reactivation key.
+		/* Update the user's last visit and add the reactivation key. */
 		$user_actkey = gen_rand_string(mt_rand(6, 10));
 
 		$sql = 'UPDATE ' . USERS_TABLE . '
@@ -148,7 +151,7 @@ class listener implements EventSubscriberInterface
 				WHERE user_id = ' . (int) $user_row['user_id'];
 		$this->db->sql_query($sql);
 
-		// Prepare email and send link with reactivation key.
+		/* Prepare email and send link with reactivation key. */
 		if (!class_exists('messenger'))
 		{
 			include($this->phpbb_root_path . 'includes/functions_messenger.' . $this->php_ext);
@@ -167,15 +170,18 @@ class listener implements EventSubscriberInterface
 
 		$messenger->send(NOTIFY_EMAIL);
 
-		// Add an entry to the user log.
+		/* Add an entry to the user log. */
 		$this->log->add('user', $this->user->data['user_id'], $this->user->ip, 'LOG_USER_REACTIVATE_USER', false, [
 			'reportee_id' => $user_row['user_id']
 		]);
 
-		// Show the user a message and explain how they can reactivate their account.
+		/* Show the user a message and explain how they can reactivate their account. */
 		trigger_error($this->language->lang('FORACCREA_MSG_REACTIVATION_EXPLANATION'));
 	}
 
+	/*
+		EVENT: core.acp_users_display_overview
+	*/
 	public function user_mgr_template_vars($event): void
 	{
 		$user_row = $event['user_row'];

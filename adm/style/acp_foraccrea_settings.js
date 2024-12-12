@@ -10,7 +10,7 @@
 *
 */
 
-(function ($) {	// IIFE start
+(function ($) {
 
 'use strict';
 
@@ -64,4 +64,4 @@ $(function() {
 	$('[name="foraccrea_enable"]')	.on('change'	, setState);
 });
 
-})(jQuery);	// IIFE end
+})(jQuery);

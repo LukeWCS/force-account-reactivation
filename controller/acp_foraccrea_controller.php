@@ -15,17 +15,16 @@ namespace lukewcs\forcereactivation\controller;
 
 class acp_foraccrea_controller
 {
-	protected $language;
-	protected $template;
-	protected $config;
-	protected $request;
-	protected $db;
-	protected $group_helper;
-	protected $ext_manager;
+	protected object $language;
+	protected object $template;
+	protected object $config;
+	protected object $request;
+	protected object $db;
+	protected object $group_helper;
+	protected object $ext_manager;
 
-	private $metadata;
-
-	public $u_action;
+	public    string $u_action;
+	private   array  $metadata;
 
 	public function __construct(
 		\phpbb\language\language $language,
@@ -83,10 +82,11 @@ class acp_foraccrea_controller
 		$exclude_groups = [];
 		foreach ($db_groups as $group)
 		{
-			$exclude_groups[] = [
-				$this->group_helper->get_name($group['group_name']),
-				$group['group_id'],
-				$group['group_type'] == GROUP_SPECIAL,
+			$exclude_groups += [
+				$this->group_helper->get_name($group['group_name']) => [
+					$group['group_id'],
+					$group['group_type'] == GROUP_SPECIAL,
+				],
 			];
 		}
 
@@ -105,8 +105,8 @@ class acp_foraccrea_controller
 			'FORACCREA_ENABLE'					=> (bool) $this->config['foraccrea_enable'],
 			'FORACCREA_TIME_RANGE'				=> (int) $this->config['foraccrea_time_range'],
 			'FORACCREA_TIME_RANGE_TYPE_OPTS'	=> $this->select_struct($this->config['foraccrea_time_range_type'], [
-				['FORACCREA_TIME_RANGE_YEARS'	, 'years'],
-				['FORACCREA_TIME_RANGE_MONTHS'	, 'months'],
+				'FORACCREA_TIME_RANGE_YEARS'	=> 'years',
+				'FORACCREA_TIME_RANGE_MONTHS'	=> 'months',
 			]),
 			'FORACCREA_CONSIDER_NON_LOGIN'		=> (bool) $this->config['foraccrea_consider_non_login'],
 			'FORACCREA_EXCLUDE_GROUPS'			=> $this->select_struct(json_decode($this->config['foraccrea_exclude_groups']) ?? [],
@@ -123,21 +123,25 @@ class acp_foraccrea_controller
 		$this->u_action = $u_action;
 	}
 
-	private function select_struct($value, array $options_params): array
+	private function select_struct($cfg_value, array $options): array
 	{
-		$is_array_value = is_array($value);
-		$options = [];
-		foreach ($options_params as $params)
+		$options_tpl = [];
+
+		foreach ($options as $opt_key => $opt_value)
 		{
-			$options[] = [
-				'label'		=> $params[0],
-				'value'		=> $params[1],
-				'bold'		=> $params[2] ?? false,
-				'selected'	=> $is_array_value ? in_array($params[1], $value) : $params[1] == $value,
+			if (!is_array($opt_value))
+			{
+				$opt_value = [$opt_value];
+			}
+			$options_tpl[] = [
+				'label'		=> $opt_key,
+				'value'		=> $opt_value[0],
+				'bold'		=> $opt_value[1] ?? false,
+				'selected'	=> is_array($cfg_value) ? in_array($opt_value[0], $cfg_value) : $opt_value[0] == $cfg_value,
 			];
 		}
 
-		return $options;
+		return $options_tpl;
 	}
 
 	private function set_meta_template_vars(string $tpl_prefix, string $copyright): void
