@@ -5,7 +5,7 @@
   * Code strikter gestaltet.
 * ACP-Controller:
   * Aktuelle Funktion `select_struct()` von EMP 3.0 übernommen.
-* ext.php`/`composer.json` angepasst:
+* `ext.php`/`composer.json` angepasst:
   * PHP: 7.1.3-8.3.x -> 7.4.0-8.4.x
 
 ### 1.1.2
