@@ -12,8 +12,6 @@
 
 {% INCLUDE 'overall_header.html' %}
 
-{% set switch_type = TOGGLECTRL_TYPE ?? 'toggle' %}
-
 <a id="maincontent"></a>
 
 <h1>{{ lang('FORACCREA_CONFIG_TITLE') }}</h1>
@@ -49,7 +47,7 @@
 				<span>{{ lang('FORACCREA_ENABLE_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				{{ _self.switch('foraccrea_enable', FORACCREA_ENABLE, switch_type) }}
+				{{ _self.switch('foraccrea_enable', FORACCREA_ENABLE) }}
 			</dd>
 		</dl>
 
@@ -70,7 +68,7 @@
 				<span>{{ lang('FORACCREA_CONSIDER_NON_LOGIN_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				{{ _self.switch('foraccrea_consider_non_login', FORACCREA_CONSIDER_NON_LOGIN, switch_type) }}
+				{{ _self.switch('foraccrea_consider_non_login', FORACCREA_CONSIDER_NON_LOGIN) }}
 			</dd>
 		</dl>
 
@@ -92,7 +90,7 @@
 				<span>{{ lang('FORACCREA_EXCLUDE_NRU_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				{{ _self.switch('foraccrea_exclude_nru', FORACCREA_EXCLUDE_NRU, switch_type) }}
+				{{ _self.switch('foraccrea_exclude_nru', FORACCREA_EXCLUDE_NRU) }}
 			</dd>
 		</dl>
 	</fieldset>
@@ -123,13 +121,15 @@
 {% INCLUDECSS '@lukewcs_forcereactivation/acp_foraccrea_settings.css' %}
 {% INCLUDEJS '@lukewcs_forcereactivation/acp_foraccrea_settings.js' %}
 
-{% macro switch(name, checked = false, type = 'toggle') -%}
-	{% if type == 'toggle' || type == 'checkbox' -%}
+{% macro switch(name, checked = false, type = null) -%}
+	{% set type = type ?? (TOGGLECTRL_TYPE in ['toggle', 'checkbox', 'radio'] ? TOGGLECTRL_TYPE : 'toggle') -%}
+	{% if type in ['toggle', 'checkbox'] -%}
 		<input type="checkbox" class="{{ type }}" name="{{ name }}" value="1"{{ checked ? ' checked' }}>
 	{%- elseif type == 'radio' -%}
 		<label><input type="radio" class="radio" name="{{ name }}" value="1"{{ checked ? ' checked' }}> {{ lang('YES') }}</label>
 		<label><input type="radio" class="radio" name="{{ name }}" value="0"{{ !checked ? ' checked' }}> {{ lang('NO') }}</label>
 	{%- endif %}
+	{#- v1.3.1 #}
 {%- endmacro %}
 
 {% macro number(name, value, min = null, max = null, step = null, placeholder = null) -%}
@@ -156,21 +156,22 @@
 {%- endmacro %}
 
 {% macro notes(notes) %}
+	{% set note_dot = notes|length > 1 ? '&bull; ' %}
 	{% if notes|length %}
 		<div class="successbox notice">
 			{% for note in notes %}
-				<p>{{ note }}</p>
+				<p>{{ note_dot }}{{ note }}</p>
 			{% endfor %}
 		</div>
 	{% endif %}
 {% endmacro %}
 
 {% macro footer(metadata) %}
-	<p class="{{ metadata.class  }}">
+	<p class="{{ metadata.class }}">
 		{{ metadata.ext_name }} {{ metadata.ext_ver }} &copy; {{ metadata.ext_copyright }}
 		{% if metadata.lang_ver is defined %}
 			<br>
-			{{ metadata.lang_desc|e('html') }} {{ metadata.lang_ver|e('html') }} &bull; {{ metadata.lang_author|e('html') }}
+			{{ metadata.lang_desc|e('html') }} {{ metadata.lang_ver|e('html') }} &copy; {{ metadata.lang_author|e('html') }}
 		{% endif %}
 	</p>
 {% endmacro %}

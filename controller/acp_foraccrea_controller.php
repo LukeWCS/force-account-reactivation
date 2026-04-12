@@ -15,36 +15,20 @@ namespace lukewcs\forcereactivation\controller;
 
 class acp_foraccrea_controller
 {
-	protected object $language;
-	protected object $template;
-	protected object $config;
-	protected object $request;
-	protected object $db;
-	protected object $group_helper;
-	protected object $ext_manager;
-
-	public    string $u_action;
-	private   array  $metadata;
+	private array  $metadata;
+	public  string $u_action;
 
 	public function __construct(
-		\phpbb\language\language $language,
-		\phpbb\template\template $template,
-		\phpbb\config\config $config,
-		\phpbb\request\request $request,
-		\phpbb\db\driver\driver_interface $db,
-		\phpbb\group\helper $group_helper,
-		\phpbb\extension\manager $ext_manager
+		protected \phpbb\language\language $language,
+		protected \phpbb\template\template $template,
+		protected \phpbb\config\config $config,
+		protected \phpbb\request\request $request,
+		protected \phpbb\db\driver\driver_interface $db,
+		protected \phpbb\group\helper $group_helper,
+		protected \phpbb\extension\manager $ext_manager,
 	)
 	{
-		$this->language		= $language;
-		$this->template		= $template;
-		$this->config		= $config;
-		$this->request		= $request;
-		$this->db			= $db;
-		$this->group_helper	= $group_helper;
-		$this->ext_manager	= $ext_manager;
-
-		$this->metadata		= $this->ext_manager->create_extension_metadata_manager('lukewcs/forcereactivation')->get_metadata('all');
+		$this->metadata = $this->ext_manager->create_extension_metadata_manager('lukewcs/forcereactivation')->get_metadata('all');
 	}
 
 	public function module_settings(): void
@@ -61,12 +45,12 @@ class acp_foraccrea_controller
 				trigger_error($this->language->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
 			}
 
-			$this->config->set('foraccrea_enable'				, $this->request->variable('foraccrea_enable'						, 0));
-			$this->config->set('foraccrea_time_range'			, $this->request->variable('foraccrea_time_range'					, 2));
-			$this->config->set('foraccrea_time_range_type'		, $this->request->variable('foraccrea_time_range_type'				, 'years'));
-			$this->config->set('foraccrea_consider_non_login'	, $this->request->variable('foraccrea_consider_non_login'			, 0));
-			$this->config->set('foraccrea_exclude_groups'		, json_encode($this->request->variable('foraccrea_exclude_groups'	, [0])));
-			$this->config->set('foraccrea_exclude_nru'			, $this->request->variable('foraccrea_exclude_nru'					, 0));
+			$this->config->set('foraccrea_enable'				, $this->request->variable('foraccrea_enable'							, 0));
+			$this->config->set('foraccrea_time_range'			, $this->min_max(1, 99, $this->request->variable('foraccrea_time_range'	, 2)));
+			$this->config->set('foraccrea_time_range_type'		, $this->request->variable('foraccrea_time_range_type'					, 'years'));
+			$this->config->set('foraccrea_consider_non_login'	, $this->request->variable('foraccrea_consider_non_login'				, 0));
+			$this->config->set('foraccrea_exclude_groups'		, json_encode($this->request->variable('foraccrea_exclude_groups'		, [0])));
+			$this->config->set('foraccrea_exclude_nru'			, $this->request->variable('foraccrea_exclude_nru'						, 0));
 
 			trigger_error($this->language->lang('FORACCREA_MSG_SAVED_SETTINGS') . adm_back_link($this->u_action));
 		}
@@ -123,7 +107,7 @@ class acp_foraccrea_controller
 		$this->u_action = $u_action;
 	}
 
-	private function select_struct($cfg_value, array $options): array
+	private function select_struct(array|int|string $cfg_value, array $options): array
 	{
 		$options_tpl = [];
 
@@ -161,12 +145,32 @@ class acp_foraccrea_controller
 		$this->template->assign_vars([$tpl_prefix . '_METADATA' => $template_vars]);
 	}
 
-	// Check the language pack version for the minimum version and generate notice if outdated
+	private function min_max(float|int $min, float|int $max, float|int $value): float|int
+	{
+		return match (true) {
+			$value < $min	=> $min,
+			$value > $max	=> $max,
+			default			=> $value,
+		};
+	}
+
+	/*
+		Determine the version of the language pack with fallback to 0.0.0
+	*/
+	private function get_lang_ver(string $lang_ext_ver): string
+	{
+		preg_match('/^([0-9]+\.[0-9]+\.[0-9]+.*)/', $this->language->lang($lang_ext_ver), $matches);
+
+		return ($matches[1] ?? '0.0.0');
+	}
+
+	/*
+		Check the language pack version for the minimum version and generate notice if outdated
+	*/
 	private function lang_ver_check_msg(string $lang_version_var, string $lang_outdated_var): string
 	{
 		$lang_outdated_msg = '';
-		preg_match('/^([0-9]+\.[0-9]+\.[0-9]+)/', $this->language->lang($lang_version_var), $matches);
-		$ext_lang_ver = $matches[1] ?? '0.0.0';
+		$ext_lang_ver = $this->get_lang_ver($lang_version_var);
 		$ext_lang_min_ver = $this->metadata['extra']['lang-min-ver'];
 
 		if (phpbb_version_compare($ext_lang_ver, $ext_lang_min_ver, '<'))
@@ -175,7 +179,7 @@ class acp_foraccrea_controller
 			{
 				$lang_outdated_msg = $this->language->lang($lang_outdated_var);
 			}
-			else // Fallback if the current language package does not yet have the required variable.
+			else /* Fallback if the current language package does not yet have the required variable. */
 			{
 				$lang_outdated_msg = 'Note: The language pack for the extension <strong>%1$s</strong> is no longer up-to-date. (installed: %2$s / needed: %3$s)';
 			}

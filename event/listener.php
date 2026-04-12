@@ -17,34 +17,17 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener implements EventSubscriberInterface
 {
-	protected object $language;
-	protected object $template;
-	protected object $config;
-	protected object $user;
-	protected object $log;
-	protected object $db;
-	protected string $phpbb_root_path;
-	protected string $php_ext;
-
 	public function __construct(
-		\phpbb\language\language $language,
-		\phpbb\template\template $template,
-		\phpbb\config\config $config,
-		\phpbb\user $user,
-		\phpbb\log\log $log,
-		\phpbb\db\driver\driver_interface $db,
-		$phpbb_root_path,
-		$php_ext
+		protected \phpbb\language\language $language,
+		protected \phpbb\template\template $template,
+		protected \phpbb\config\config $config,
+		protected \phpbb\user $user,
+		protected \phpbb\log\log $log,
+		protected \phpbb\db\driver\driver_interface $db,
+		protected $phpbb_root_path,
+		protected $php_ext,
 	)
 	{
-		$this->language			= $language;
-		$this->template			= $template;
-		$this->config			= $config;
-		$this->user				= $user;
-		$this->log				= $log;
-		$this->db				= $db;
-		$this->phpbb_root_path	= $phpbb_root_path;
-		$this->php_ext			= $php_ext;
 	}
 
 	public static function getSubscribedEvents(): array

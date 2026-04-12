@@ -1,3 +1,12 @@
+### 1.1.4
+(2026-04-12)
+
+* Fix: Im ACP Modul einen kleinen Fehler bei Responsive Ansicht behoben, wodurch der Titel der Einstellungen-Gruppe nach links versetzt dargestellt wurde.
+* Fix: Im ACP Modul konnte bei "Gültiger Zeitraum:" ein leeres Eingabefeld gespeichert werden, was dann in der Datenbank als `0` gespeichert wurde.
+* Technik auf den Stand von Extension Manager Plus 3.1.0 und Toggle Control 1.3.1 gebracht, Details im Build Changelog.
+* Die Voraussetzungen haben sich geändert:
+  * PHP: 8.0.0 - 8.5.x (Bisher: 7.4.0 - 8.4.x)
+
 ### 1.1.3
 (2024-12-12)
 

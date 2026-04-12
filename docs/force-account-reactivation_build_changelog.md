@@ -1,3 +1,25 @@
+### 1.1.4
+* Release (2026-04-12)
+* Fix: Reponsive Regel hat bei `fieldset legend` nicht gegriffen.
+* Fix: Im ACP Modul konnte "Gültiger Zeitraum:" leer gespeichert werden.
+* PHP:
+  * Code verwendet jetzt 8.0 Features.
+  * Code strikter gestaltet.
+* ACP-Controller:
+  * Aktuelle Funktionen von Extension Manager Plus 3.1 übernommen:
+    * `get_lang_ver()`
+    * `lang_ver_check_msg()`
+* ACP-Template:
+  * Toggle Control Schnittstelle für 1.3.1 angepasst und unnötigen Twig Code entfernt.
+  * Aktualisierte Makros von Toggle Control 1.3.1 übernommen.
+    * `switch()`
+    * `notes()`
+* CSS:
+  * Auf Nested CSS umgestellt.
+  * Kirk-Toggles auf 2.0 aktualisiert.
+* `ext.php`/`composer.json` angepasst:
+  * PHP: 7.4.0-8.4.x -> 8.0.0-8.5.x
+
 ### 1.1.3
 * Release (2024-12-12)
 * PHP:
