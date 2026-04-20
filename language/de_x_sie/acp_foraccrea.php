@@ -56,7 +56,7 @@ $lang = array_merge($lang, [
 	'FORACCREA_CONSIDER_NON_LOGIN'			=> 'Berücksichtige Benutzerkonten ohne Anmeldung',
 	'FORACCREA_CONSIDER_NON_LOGIN_EXPLAIN'	=> 'Wenn dieser Schalter aktiviert ist, werden Benutzerkonten, mit denen noch nie eine Anmeldung durchgeführt wurde, ebenso berücksichtigt. Bei solchen Konten zählt das Datum der Registrierung als letzte Anmeldung.',
 	'FORACCREA_EXCLUDE_GROUPS'				=> 'Gruppen ausschließen',
-	'FORACCREA_EXCLUDE_GROUPS_EXPLAIN'		=> 'Hier können Sie Gruppen auswählen, die von einer erzwungenen Konto-Reaktivierung ausgeschlossen werden sollen. Gründer, Gäste und Bots sind generell ausgeschlossen. Ist ein Benutzer Mitglied einer ausgeschlossenen Gruppe, wird er auch dann ausgeschlossen, wenn er in anderen Gruppen nicht ausgeschlossen ist.',
+	'FORACCREA_EXCLUDE_GROUPS_EXPLAIN'		=> 'Hier können Sie Gruppen auswählen, die von einer erzwungenen Konto-Reaktivierung ausgeschlossen werden sollen. Gründer, Gäste und Bots sowie gesperrte Benutzer sind generell ausgeschlossen. Ist ein Benutzer Mitglied einer ausgeschlossenen Gruppe, wird er auch dann ausgeschlossen, wenn er in anderen Gruppen nicht ausgeschlossen ist.',
 	'FORACCREA_EXCLUDE_NRU'					=> '„Kürzlich registrierte Benutzer“ ausschließen',
 	'FORACCREA_EXCLUDE_NRU_EXPLAIN'			=> 'Wenn ein Benutzer Mitglied in dieser Gruppe ist, spielt es keine Rolle welche Auswahl bei „Gruppen ausschließen“ vorgenommen wird, da nur dieser Schalter relevant ist.',
 

@@ -56,7 +56,7 @@ $lang = array_merge($lang, [
 	'FORACCREA_CONSIDER_NON_LOGIN'			=> 'Consider non-login user accounts',
 	'FORACCREA_CONSIDER_NON_LOGIN_EXPLAIN'	=> 'If this switch is activated, user accounts that have never been logged in will also be taken into account. For such accounts, the date of registration counts as the last login.',
 	'FORACCREA_EXCLUDE_GROUPS'				=> 'Exclude groups',
-	'FORACCREA_EXCLUDE_GROUPS_EXPLAIN'		=> 'Here you can select groups to exclude from a forced account reactivation. Founders, guests and bots are generally excluded. If a user is a member of an excluded group, they will be excluded even if they are not excluded in other groups.',
+	'FORACCREA_EXCLUDE_GROUPS_EXPLAIN'		=> 'Here you can select groups to exclude from a forced account reactivation. Founders, guests, bots, and banned users are generally excluded. If a user is a member of an excluded group, they will be excluded even if they are not excluded in other groups.',
 	'FORACCREA_EXCLUDE_NRU'					=> 'Exclude “Newly registered users”',
 	'FORACCREA_EXCLUDE_NRU_EXPLAIN'			=> 'If a user is a member of this group, it does not matter which selection is made for “Exclude groups”, as only this switch is relevant.',
 

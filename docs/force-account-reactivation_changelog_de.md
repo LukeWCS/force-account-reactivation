@@ -1,9 +1,15 @@
+### 1.1.5
+(2026-04-20)
+
+* Fix: Gesperrte Benutzer (über IP oder ID) wurden nicht ignoriert, was in solchen Fällen eine unsinnige Reaktivierung-Prozedur des Kontos zur Folge haben konnte, wenn beim Login-Versuch die letzte Aktivität des Konto ausserhalb des erlaubten Zeitraumes lag.
+* Fix: Bei 1.1.4 wurde fälschlicherweise eine CSS Regel auskommentiert. Betraf im ACP Modul die Cursor-Darstellung der Einstellungen-Titel.
+
 ### 1.1.4
 (2026-04-12)
 
-* Fix: Im ACP Modul einen kleinen Fehler bei Responsive Ansicht behoben, wodurch der Titel der Einstellungen-Gruppe nach links versetzt dargestellt wurde.
 * Fix: Im ACP Modul konnte bei "Gültiger Zeitraum:" ein leeres Eingabefeld gespeichert werden, was dann in der Datenbank als `0` gespeichert wurde.
-* Technik auf den Stand von Extension Manager Plus 3.1.0 und Toggle Control 1.3.1 gebracht, Details im Build Changelog.
+* Fix: Im ACP Modul einen kleinen Fehler bei Responsive Ansicht behoben, wodurch der Titel der Einstellungen-Gruppe nach links versetzt dargestellt wurde.
+* Technik auf den Stand von Extension Manager Plus 3.1 und Toggle Control 1.3 gebracht, Details im Build Changelog.
 * Die Voraussetzungen haben sich geändert:
   * PHP: 8.0.0 - 8.5.x (Bisher: 7.4.0 - 8.4.x)
 

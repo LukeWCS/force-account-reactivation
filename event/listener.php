@@ -46,7 +46,7 @@ class listener implements EventSubscriberInterface
 	{
 		$user_row = $event['login']['user_row'];
 
-		/* Check requirements */
+		/* Check basic prerequisites. */
 		if ($event['login']['status'] != LOGIN_SUCCESS
 			|| $user_row['user_type'] != USER_NORMAL
 			|| $event['admin']
@@ -55,9 +55,24 @@ class listener implements EventSubscriberInterface
 			|| $user_row['user_email'] == ''
 		)
 		{
-			/* User does not need to be verified, return control to phpBB. */
+			/* User does not need to be verified or prerequisites are not met; return control to phpBB. */
 			return;
 		}
+
+		/* Determine whether a user is banned (by IP or ID) and their group membership. */
+		if (!function_exists('group_memberships'))
+		{
+			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
+		}
+
+		if (defined('IN_CHECK_BAN') || count(phpbb_get_banned_user_ids([$user_row['user_id']])) > 0)
+		{
+			/* IP or ID is blocked, return control to phpBB. */
+			return;
+		}
+
+		$group_memberships = group_memberships(false, $user_row['user_id']) ?: [];
+		$user_group_ids = array_column($group_memberships, 'group_id');
 
 		/* Determine the user's last visit. */
 		$sql = 'SELECT MAX(session_time) AS session_time
@@ -67,14 +82,6 @@ class listener implements EventSubscriberInterface
 		$user_last_session = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 		$user_lastvisit = $user_last_session['session_time'] ?? $user_row['user_lastvisit'];
-
-		/* Determine the user's groups. */
-		if (!function_exists('group_memberships'))
-		{
-			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
-		}
-		$group_memberships = group_memberships(false, $user_row['user_id']) ?: [];
-		$user_group_ids = array_column($group_memberships, 'group_id');
 
 		/* Check whether a user account without login should be taken into account. */
 		if ($user_lastvisit == 0 && $this->config['foraccrea_consider_non_login'])
@@ -107,13 +114,13 @@ class listener implements EventSubscriberInterface
 			$exclude_user = count($intersect_group_ids) > 0;
 		}
 
-		/* Check conditions for forced reactivation. */
+		/* Check conditions for skipping forced reactivation. */
 		if ($exclude_user
 			|| $user_lastvisit == 0
 			|| $user_lastvisit >= strtotime("- {$this->config['foraccrea_time_range']} {$this->config['foraccrea_time_range_type']}")
 		)
 		{
-			/* User is allowed to pass, return control to phpBB. */
+			/* User has been exempted from verification or the maximum inactivity period has not been exceeded; return control to phpBB. */
 			return;
 		}
 
@@ -139,6 +146,7 @@ class listener implements EventSubscriberInterface
 		{
 			include($this->phpbb_root_path . 'includes/functions_messenger.' . $this->php_ext);
 		}
+
 		$messenger = new \messenger(false);
 		$server_url = generate_board_url();
 

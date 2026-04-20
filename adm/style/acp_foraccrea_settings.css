@@ -22,7 +22,7 @@ fieldset {}
 	}
 
 	& dt label {
-		/* cursor: inherit; */
+		cursor: inherit;
 	}
 
 	& p.submit-buttons {

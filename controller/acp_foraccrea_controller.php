@@ -74,8 +74,7 @@ class acp_foraccrea_controller
 			];
 		}
 
-		$lang_outdated_msg = $this->lang_ver_check_msg('FORACCREA_LANG_VER', 'FORACCREA_MSG_LANGUAGEPACK_OUTDATED');
-		if ($lang_outdated_msg)
+		if ($lang_outdated_msg = $this->lang_ver_check_msg('FORACCREA_LANG_VER', 'FORACCREA_MSG_LANGUAGEPACK_OUTDATED'))
 		{
 			$notes[] = $lang_outdated_msg;
 		}

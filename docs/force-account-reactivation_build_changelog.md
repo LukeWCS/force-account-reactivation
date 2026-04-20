@@ -1,3 +1,10 @@
+### 1.1.5
+* Release (2026-04-20)
+* Fix: Gesperrte Benutzer (IP/ID) wurden nicht ignoriert.
+* Fix: Bei 1.1.4 wurde fälschlicherweise die CSS Regel `cursor: inherit` auskommentiert.
+* Sprachdateien:
+  * 1 Variable für den Gesperrte-Benutzer-Fix angepasst.
+
 ### 1.1.4
 * Release (2026-04-12)
 * Fix: Reponsive Regel hat bei `fieldset legend` nicht gegriffen.
@@ -6,11 +13,11 @@
   * Code verwendet jetzt 8.0 Features.
   * Code strikter gestaltet.
 * ACP-Controller:
-  * Aktuelle Funktionen von Extension Manager Plus 3.1 übernommen:
+  * Aktualisierte Funktionen von Extension Manager Plus 3.1.0 übernommen:
     * `get_lang_ver()`
     * `lang_ver_check_msg()`
 * ACP-Template:
-  * Toggle Control Schnittstelle für 1.3.1 angepasst und unnötigen Twig Code entfernt.
+  * Toggle Control Schnittstelle für 1.3 angepasst und nicht mehr benötigen Twig Code entfernt.
   * Aktualisierte Makros von Toggle Control 1.3.1 übernommen.
     * `switch()`
     * `notes()`
@@ -18,7 +25,7 @@
   * Auf Nested CSS umgestellt.
   * Kirk-Toggles auf 2.0 aktualisiert.
 * `ext.php`/`composer.json` angepasst:
-  * PHP: 7.4.0-8.4.x -> 8.0.0-8.5.x
+  * PHP: 8.0.0 - 8.5.x (Bisher: 7.4.0 - 8.4.x)
 
 ### 1.1.3
 * Release (2024-12-12)

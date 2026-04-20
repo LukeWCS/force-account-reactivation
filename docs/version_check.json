@@ -1,8 +1,8 @@
 {
     "stable": {
         "3.3": {
-            "current": "1.1.4",
-            "announcement": "https://github.com/LukeWCS/force-account-reactivation/releases/tag/1.1.4",
+            "current": "1.1.5",
+            "announcement": "https://github.com/LukeWCS/force-account-reactivation/releases/tag/1.1.5",
             "eol": null,
             "security": false
         }
