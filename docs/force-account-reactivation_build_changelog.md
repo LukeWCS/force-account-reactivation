@@ -1,3 +1,6 @@
+### 1.1.6
+* Release (2026-06-14)
+
 ### 1.1.5
 * Release (2026-04-20)
 * Fix: Gesperrte Benutzer (IP/ID) wurden nicht ignoriert.

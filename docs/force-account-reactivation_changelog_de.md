@@ -1,7 +1,12 @@
+### 1.1.6
+(2026-06-14)
+
+* Fix: In `composer.json` wurde ein falscher Version Constraint (`~1.0.0`) für `"require":` > `"composer/installers":` verwendet, was beim Aktualisieren mittels Composer dazu führen kann, dass keine gültige Version der Ext zur Verfügung steht und die Aktualisierung abgebrochen wird, wenn für Composer selber zum Beispiel eine Mindestversion von 1.10 definiert wurde. Im Zuge des Fixes wurde im Version Constraint auch gleich Composer 2 freigegeben. [Meldung: Crizzo (phpBB.de)]
+
 ### 1.1.5
 (2026-04-20)
 
-* Fix: Gesperrte Benutzer (über IP oder ID) wurden nicht ignoriert, was in solchen Fällen eine unsinnige Reaktivierung-Prozedur des Kontos zur Folge haben konnte, wenn beim Login-Versuch die letzte Aktivität des Konto ausserhalb des erlaubten Zeitraumes lag.
+* Fix: Gesperrte Benutzer (über IP oder ID) wurden nicht ignoriert, was eine unsinnige Reaktivierungs-Prozedur des Kontos zur Folge haben konnte, wenn beim Login-Versuch festgestellt wurde, dass die letzte Aktivität ausserhalb des eingestellten Zeitraums lag.
 * Fix: Bei 1.1.4 wurde fälschlicherweise eine CSS Regel auskommentiert. Betraf im ACP Modul die Cursor-Darstellung der Einstellungen-Titel.
 
 ### 1.1.4
